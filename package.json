@@ -12,6 +12,7 @@
     "emotion": "^10.0.7",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
+    "react-emotion": "^10.0.0",
     "typescript": "^3.3.3"
   },
   "devDependencies": {

@@ -8,18 +8,22 @@ interface Element {
 
 const ElementGroup = ({
   elements,
+  selectedElement,
+  setElement,
   id
 }: {
   id: string;
   elements: Array<Element>;
+  selectedElement: string;
+  setElement: any;
 }) => {
-  const [selectedElement, setElement] = useState("H");
   return (
     <div id={id}>
       {elements.map(element => {
         const isSelected = element.symbol === selectedElement;
         return (
           <ElementBlock
+            key={element.symbol}
             element={element}
             clickHandler={(element: string) => {
               setElement(element);

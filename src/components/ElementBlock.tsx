@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 /** @jsx jsx */
-import { jsx } from "@emotion/core";
+import { css, jsx } from "@emotion/core";
 
 interface Element {
   name: string;
@@ -16,12 +16,17 @@ const ElementBlock = ({
   clickHandler: any;
   isSelected: boolean;
 }) => {
+  const isSelectedBackgroundColor = isSelected ? "red" : "white";
   return (
     <div
       onClick={() => {
         clickHandler(element.symbol);
       }}
-      css={isSelected ? { backgroundColor: "red" } : {}}
+      css={css`
+        border: 1px solid black;
+        cursor: pointer;
+        background-color: ${isSelectedBackgroundColor};
+      `}
     >
       <p>{element.name}</p>
       <p>{element.symbol}</p>

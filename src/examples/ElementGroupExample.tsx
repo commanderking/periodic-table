@@ -2,11 +2,8 @@ import React, { useEffect, useState } from "react";
 import ElementGroup from "../components/ElementGroup";
 import { fetchPeriodicTableDataGroupedByColumn } from "../requests/periodicTable";
 import SelectedElementsPreview from "../components/SelectedElementsPreview";
-const testElements = [
-  { name: "Hydrogen", symbol: "H", column: 1 },
-  { name: "Helium", symbol: "He", column: 8 },
-  { name: "Lithium", symbol: "Li", column: 2 }
-];
+/** @jsx jsx */
+import { jsx, css } from "@emotion/core";
 
 const ElementGroupExample = () => {
   const [elementsByColumn, setElements] = useState({});
@@ -23,7 +20,13 @@ const ElementGroupExample = () => {
   }, []);
 
   return (
-    <div id="ElementGroupExample">
+    <div
+      id="ElementGroupExample"
+      css={css`
+        display: grid;
+        grid-template-columns: 1fr 1fr 6fr 1fr 1fr;
+      `}
+    >
       <ElementGroup
         // @ts-ignore
         elements={elementsByColumn[1] || []}

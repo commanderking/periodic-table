@@ -1,5 +1,7 @@
 import React from "react";
 
-const ElementPreviewBlock = ({}) => {
-  return <div />;
+const ElementPreviewBlock = ({ setAddedElements }: any) => {
+  return <div>Hey</div>;
 };
+
+export default ElementPreviewBlock;

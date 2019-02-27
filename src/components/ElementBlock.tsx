@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 
@@ -10,11 +10,13 @@ interface Element {
 const ElementBlock = ({
   element,
   clickHandler,
-  isSelected
+  isSelected,
+  addElement
 }: {
   element: Element;
   clickHandler: any;
   isSelected: boolean;
+  addElement: any;
 }) => {
   const isSelectedBackgroundColor = isSelected ? "red" : "white";
   return (
@@ -26,10 +28,33 @@ const ElementBlock = ({
         border: 1px solid black;
         cursor: pointer;
         background-color: ${isSelectedBackgroundColor};
+        padding: 10px;
+        height: 70px;
       `}
     >
-      <p>{element.name}</p>
-      <p>{element.symbol}</p>
+      <p
+        css={css`
+          margin: 0;
+        `}
+      >
+        {element.name}
+      </p>
+      <p
+        css={css`
+          margin: 0;
+        `}
+      >
+        {element.symbol}
+      </p>
+      {isSelected && (
+        <button
+          onClick={() => {
+            addElement(element);
+          }}
+        >
+          Add
+        </button>
+      )}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ElementBlock from "./ElementBlock";
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
@@ -12,12 +12,16 @@ const ElementGroup = ({
   elements,
   selectedElement,
   setElement,
+  addElement,
+  hasSelectedMaxElements,
   id
 }: {
   id: string;
   elements: Array<Element>;
   selectedElement: string;
+  addElement: any;
   setElement: any;
+  hasSelectedMaxElements: boolean;
 }) => {
   return (
     <div
@@ -26,6 +30,7 @@ const ElementGroup = ({
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
+        opacity: ${hasSelectedMaxElements ? 0.2 : 1};
       `}
     >
       {elements.map(element => {
@@ -35,9 +40,14 @@ const ElementGroup = ({
             key={element.symbol}
             element={element}
             clickHandler={(element: string) => {
-              setElement(element);
+              if (!hasSelectedMaxElements) {
+                setElement(element);
+              }
             }}
-            isSelected={isSelected}
+            addElement={(element: Object) => {
+              addElement(element);
+            }}
+            isSelected={isSelected && !hasSelectedMaxElements}
           />
         );
       })}

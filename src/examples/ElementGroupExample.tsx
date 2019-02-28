@@ -10,12 +10,24 @@ import { jsx, css } from "@emotion/core";
 const ElementGroupExample = () => {
   const [elementsByColumn, setElements] = useState({});
   const [selectedElement, setSelectedElement] = useState("");
-  const [addedElements, addSelectedElement] = useState([]);
+  const [addedElements, updateAddedElements] = useState([]);
 
   const addElement = (element: Object) => {
     // @ts-ignore
-    addSelectedElement([...addedElements, element]);
+    updateAddedElements([...addedElements, element]);
   };
+  const removeElement = (element: any) => {
+    const indexToDelete = addedElements.findIndex((addedElement: any) => {
+      return element.name === addedElement.name;
+    });
+
+    const updatedAddedElements = addedElements.filter((element, index) => {
+      return index !== indexToDelete;
+    });
+    updateAddedElements(updatedAddedElements);
+    setSelectedElement("");
+  };
+
   const fetchDataAndUpdateElementsState = async () => {
     const periodicTableDataByColumn = await fetchPeriodicTableDataGroupedByColumn();
     await setElements(periodicTableDataByColumn);
@@ -26,6 +38,7 @@ const ElementGroupExample = () => {
   }, []);
 
   const hasSelectedMaxElements = addedElements.length === 2;
+  console.log("render");
   return (
     <div
       id="ElementGroupExample"
@@ -53,7 +66,11 @@ const ElementGroupExample = () => {
         id="alkaliEarthMetals"
       />
       <div id="ElementsPreview">
-        <SelectedElementsPreview addedElements={addedElements} />
+        <SelectedElementsPreview
+          addedElements={addedElements}
+          removeElement={removeElement}
+          hasSelectedMaxElements={hasSelectedMaxElements}
+        />
       </div>{" "}
       <ElementGroup
         // @ts-ignore

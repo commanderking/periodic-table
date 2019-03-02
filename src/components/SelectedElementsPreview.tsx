@@ -5,7 +5,8 @@ import { css, jsx } from "@emotion/core";
 const SelectedElementsPreview = ({
   addedElements,
   removeElement,
-  hasSelectedMaxElements
+  hasSelectedMaxElements,
+  setIsReacting
 }: any) => {
   return (
     <div id="ElementsPreview">
@@ -29,7 +30,15 @@ const SelectedElementsPreview = ({
           </div>
         );
       })}
-      {hasSelectedMaxElements && <button>Mix Atoms</button>}
+      {hasSelectedMaxElements && (
+        <button
+          onClick={() => {
+            setIsReacting(true);
+          }}
+        >
+          Mix Atoms
+        </button>
+      )}
     </div>
   );
 };

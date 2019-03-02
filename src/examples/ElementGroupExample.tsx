@@ -2,15 +2,23 @@ import React, { useEffect, useState } from "react";
 import ElementGroup from "../components/ElementGroup";
 import { fetchPeriodicTableDataGroupedByColumn } from "../requests/periodicTable";
 import SelectedElementsPreview from "../components/SelectedElementsPreview";
-import ElementPreviewBlock from "../components/ElementPreviewBlock";
-import ElementBlock from "../components/ElementBlock";
+import AtomReactor from "../components/AtomReactor";
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 
 const ElementGroupExample = () => {
+  /* 
+    this.state = {
+      elementsByColumn: {},
+      selectedElement: "",
+      addedElements: [],
+      isReacting: false
+    }
+  */
   const [elementsByColumn, setElements] = useState({});
   const [selectedElement, setSelectedElement] = useState("");
   const [addedElements, updateAddedElements] = useState([]);
+  const [isReacting, setIsReacting] = useState(false);
 
   const addElement = (element: Object) => {
     // @ts-ignore
@@ -38,7 +46,6 @@ const ElementGroupExample = () => {
   }, []);
 
   const hasSelectedMaxElements = addedElements.length === 2;
-  console.log("render");
   return (
     <div
       id="ElementGroupExample"
@@ -66,11 +73,16 @@ const ElementGroupExample = () => {
         id="alkaliEarthMetals"
       />
       <div id="ElementsPreview">
-        <SelectedElementsPreview
-          addedElements={addedElements}
-          removeElement={removeElement}
-          hasSelectedMaxElements={hasSelectedMaxElements}
-        />
+        {isReacting ? (
+          <AtomReactor />
+        ) : (
+          <SelectedElementsPreview
+            addedElements={addedElements}
+            removeElement={removeElement}
+            hasSelectedMaxElements={hasSelectedMaxElements}
+            setIsReacting={setIsReacting}
+          />
+        )}
       </div>{" "}
       <ElementGroup
         // @ts-ignore

@@ -74,7 +74,7 @@ const ElementGroupExample = () => {
       />
       <div id="ElementsPreview">
         {isReacting ? (
-          <AtomReactor />
+          <AtomReactor addedElements={addedElements} />
         ) : (
           <SelectedElementsPreview
             addedElements={addedElements}

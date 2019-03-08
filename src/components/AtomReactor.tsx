@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef, useEffect, useLayoutEffect } from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 
@@ -6,46 +6,86 @@ type Props = {
   addedElements: any;
 };
 
-const AtomReactor = ({ addedElements }: Props) => {
-  const canvas = useRef(null);
+type ElementToDraw = {
+  initXPos: number;
+  yPos: number;
+  radius: number;
+  symbol: string;
+  moveDirection: string; // update to enum
+};
 
-  useLayoutEffect(() => {
+const AtomReactor = ({ addedElements }: Props) => {
+  const canvasWidth = 500;
+  const canvasHeight = 300;
+
+  const canvas = useRef(null);
+  const atomSize = 15;
+
+  const firstElement = {
+    initXPos: 25,
+    yPos: 50,
+    radius: atomSize,
+    symbol: addedElements[0].symbol,
+    moveDirection: "RIGHT"
+  };
+
+  const secondElement = {
+    initXPos: canvasWidth - 25,
+    yPos: 50,
+    radius: atomSize,
+    symbol: "Cl",
+    moveDirection: "LEFT"
+  };
+
+  useEffect(() => {
     // @ts-ignore
     const context = canvas.current.getContext("2d");
 
-    const atomSize = 15;
     context.save();
     context.scale(1, 1);
     context.fillStyle = "#FFFFFF";
 
-    var pos = 0;
-    const drawElementOne = () => {
-      const xPos = 25;
-      const yPos = 50;
+    var distanceElementMoved = 1;
+    const drawElement = ({
+      initXPos,
+      yPos,
+      radius,
+      symbol,
+      moveDirection
+    }: ElementToDraw) => {
+      const currentXPos =
+        moveDirection === "RIGHT"
+          ? initXPos + distanceElementMoved
+          : initXPos - distanceElementMoved;
       // @ts-ignore
-      context.clearRect(0, 0, context.canvas.width, context.canvas.height);
       context.strokeStyle = "black";
       context.beginPath();
-      context.arc(25 + pos, 50, atomSize, 0, Math.PI * 2);
+      context.arc(currentXPos, yPos, radius, 0, Math.PI * 2);
       context.stroke();
       context.restore();
 
       context.font = "11px Arial";
-      context.fillText("H", xPos - 3 + pos, yPos + 3);
-      pos += 1;
+      context.fillText(symbol, currentXPos - 3, yPos + 3);
     };
-
-    drawElementOne();
-    window.setInterval(drawElementOne, 30);
+    console.log("distanceElementMoved", distanceElementMoved);
+    window.setInterval(() => {
+      if (distanceElementMoved < canvasWidth / 2 - 50) {
+        context.clearRect(0, 0, canvasWidth, canvasHeight);
+        drawElement(firstElement);
+        drawElement(secondElement);
+        distanceElementMoved += 0.5;
+      }
+    }, 1);
   });
   return (
     <div>
       <h1>Reacting...</h1>
       <canvas
+        width={canvasWidth}
+        height={canvasHeight}
         ref={canvas}
         css={css`
           border: 1px solid black;
-          width: 500px;
         `}
       />
     </div>

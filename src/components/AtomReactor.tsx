@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useLayoutEffect } from "react";
+import _ from "lodash";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
-
+import { drawAtom } from "../utils/canvasAtomUtils";
 type Props = {
   addedElements: any;
 };
@@ -11,6 +12,7 @@ type ElementToDraw = {
   yPos: number;
   radius: number;
   symbol: string;
+  valenceElectrons: number;
   moveDirection: string; // update to enum
 };
 
@@ -26,6 +28,7 @@ const AtomReactor = ({ addedElements }: Props) => {
     yPos: 50,
     radius: atomSize,
     symbol: addedElements[0].symbol,
+    valenceElectrons: _.last(addedElements[0].shells),
     moveDirection: "RIGHT"
   };
 
@@ -34,6 +37,7 @@ const AtomReactor = ({ addedElements }: Props) => {
     yPos: 50,
     radius: atomSize,
     symbol: "Cl",
+    valenceElectrons: _.last(addedElements[1].shells),
     moveDirection: "LEFT"
   };
 
@@ -46,36 +50,17 @@ const AtomReactor = ({ addedElements }: Props) => {
     context.fillStyle = "#FFFFFF";
 
     var distanceElementMoved = 1;
-    const drawElement = ({
-      initXPos,
-      yPos,
-      radius,
-      symbol,
-      moveDirection
-    }: ElementToDraw) => {
-      const currentXPos =
-        moveDirection === "RIGHT"
-          ? initXPos + distanceElementMoved
-          : initXPos - distanceElementMoved;
-      // @ts-ignore
-      context.strokeStyle = "black";
-      context.beginPath();
-      context.arc(currentXPos, yPos, radius, 0, Math.PI * 2);
-      context.stroke();
-      context.restore();
 
-      context.font = "11px Arial";
-      context.fillText(symbol, currentXPos - 3, yPos + 3);
-    };
-    console.log("distanceElementMoved", distanceElementMoved);
-    window.setInterval(() => {
+    const drawReaction = () => {
       if (distanceElementMoved < canvasWidth / 2 - 50) {
         context.clearRect(0, 0, canvasWidth, canvasHeight);
-        drawElement(firstElement);
-        drawElement(secondElement);
+        drawAtom(context, firstElement, distanceElementMoved);
+        drawAtom(context, secondElement, distanceElementMoved);
         distanceElementMoved += 0.5;
       }
-    }, 1);
+    };
+
+    window.setInterval(drawReaction, 1);
   });
   return (
     <div>

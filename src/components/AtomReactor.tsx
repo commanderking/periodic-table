@@ -21,7 +21,7 @@ const AtomReactor = ({ addedElements }: Props) => {
   const canvasHeight = 300;
 
   const canvas = useRef(null);
-  const atomSize = 15;
+  const atomSize = 30;
 
   const firstElement = {
     initXPos: 25,
@@ -36,10 +36,15 @@ const AtomReactor = ({ addedElements }: Props) => {
     initXPos: canvasWidth - 25,
     yPos: 50,
     radius: atomSize,
-    symbol: "Cl",
+    symbol: addedElements[1].symbol,
     valenceElectrons: _.last(addedElements[1].shells),
     moveDirection: "LEFT"
   };
+
+  console.log(
+    "_.last(addedElements[1].shells",
+    _.last(addedElements[1].shells)
+  );
 
   useEffect(() => {
     // @ts-ignore
@@ -52,7 +57,7 @@ const AtomReactor = ({ addedElements }: Props) => {
     var distanceElementMoved = 1;
 
     const drawReaction = () => {
-      if (distanceElementMoved < canvasWidth / 2 - 50) {
+      if (distanceElementMoved < canvasWidth / 2 - atomSize * 3) {
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         drawAtom(context, firstElement, distanceElementMoved);
         drawAtom(context, secondElement, distanceElementMoved);

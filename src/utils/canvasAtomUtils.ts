@@ -1,3 +1,4 @@
+import _ from "lodash";
 export const getElectronPosition = (
   index: number,
   valenceElectrons: number,
@@ -70,17 +71,42 @@ export const getElectronPosition = (
   throw new Error("there are more than 8 valence electrons passed in");
 };
 
+const drawElectron = (
+  context: any,
+  electronLocation: { x: number; y: number },
+  atomXpos: number,
+  atomYPos: number
+) => {
+  context.beginPath();
+  context.arc(
+    atomXpos + electronLocation.x,
+    atomYPos + electronLocation.y,
+    2,
+    0,
+    Math.PI * 2
+  );
+  context.stroke();
+  context.restore();
+};
+
 export const drawAtom = (
   context: any,
   atomData: any,
   distanceElementMoved: number
 ) => {
-  const { initXPos, yPos, radius, symbol, moveDirection } = atomData;
+  const {
+    initXPos,
+    yPos,
+    radius,
+    symbol,
+    moveDirection,
+    valenceElectrons
+  } = atomData;
   const currentXPos =
     moveDirection === "RIGHT"
       ? initXPos + distanceElementMoved
       : initXPos - distanceElementMoved;
-  // @ts-ignore
+
   context.strokeStyle = "black";
   context.beginPath();
   context.arc(currentXPos, yPos, radius, 0, Math.PI * 2);
@@ -91,17 +117,12 @@ export const drawAtom = (
   context.fillText(symbol, currentXPos - 3, yPos + 3);
   context.restore();
 
-  const electronLoc = getElectronPosition(1, 1, radius);
-  console.log("electronLoc", electronLoc);
-
-  context.beginPath();
-  context.arc(
-    currentXPos + electronLoc.x,
-    yPos + electronLoc.y,
-    2,
-    0,
-    Math.PI * 2
-  );
-  context.stroke();
-  context.restore();
+  _.times(valenceElectrons, index => {
+    const electronLoc = getElectronPosition(
+      index + 1,
+      valenceElectrons,
+      radius
+    );
+    drawElectron(context, electronLoc, currentXPos, yPos);
+  });
 };

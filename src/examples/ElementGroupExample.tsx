@@ -24,6 +24,7 @@ const ElementGroupExample = () => {
     // @ts-ignore
     updateAddedElements([...addedElements, element]);
   };
+
   const removeElement = (element: any) => {
     const indexToDelete = addedElements.findIndex((addedElement: any) => {
       return element.name === addedElement.name;
@@ -51,7 +52,7 @@ const ElementGroupExample = () => {
       id="ElementGroupExample"
       css={css`
         display: grid;
-        grid-template-columns: 1fr 1fr 6fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 5fr 1fr 1fr 1fr;
       `}
     >
       <ElementGroup
@@ -84,6 +85,15 @@ const ElementGroupExample = () => {
           />
         )}
       </div>{" "}
+      <ElementGroup
+        // @ts-ignore
+        elements={elementsByColumn[16] || []}
+        selectedElement={selectedElement}
+        setElement={setSelectedElement}
+        addElement={addElement}
+        hasSelectedMaxElements={hasSelectedMaxElements}
+        id="Halogens"
+      />
       <ElementGroup
         // @ts-ignore
         elements={elementsByColumn[17] || []}

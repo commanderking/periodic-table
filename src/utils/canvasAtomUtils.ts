@@ -85,7 +85,10 @@ const drawElectron = (
     0,
     Math.PI * 2
   );
+  context.fillStyle = "yellow";
+  context.fill();
   context.stroke();
+
   context.restore();
 };
 
@@ -113,6 +116,7 @@ export const drawAtom = (
   context.stroke();
   context.restore();
 
+  context.fillStyle = "black";
   context.font = "11px Arial";
   context.fillText(symbol, currentXPos - 3, yPos + 3);
   context.restore();

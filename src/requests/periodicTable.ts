@@ -1,5 +1,6 @@
 import _ from "lodash";
 import elements from "../sampleData/periodicTable";
+import elementReactivity from "../sampleData/elementReactivity";
 const periodicTableUrl =
   "https://s3.amazonaws.com/alliance-chemistry/periodicTable/periodicTable.json";
 
@@ -18,8 +19,20 @@ const fetchPeriodicTableData = async () => {
 
 export const fetchPeriodicTableDataGroupedByColumn = async () => {
   const elements = await fetchPeriodicTableData();
-  const groupedByPeriod = _.groupBy(elements, "xpos");
-  console.log("groupedByPeriod", groupedByPeriod);
 
-  return groupedByPeriod;
+  // add data about reactivity to each element
+  if (elements) {
+    const elementsWithReactivity = elements.map(element => {
+      return {
+        ...element,
+        // @ts-ignore - need to enum elements to make sure element symbol key exists in both elements data and reactivity of elements
+        ...elementReactivity[element.symbol]
+      };
+    });
+
+    const groupedByPeriod = _.groupBy(elementsWithReactivity, "xpos");
+    return groupedByPeriod;
+  }
+
+  return {};
 };

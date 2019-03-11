@@ -6,6 +6,7 @@ import { drawAtom } from "../utils/canvasAtomUtils";
 type Props = {
   addedElements: any;
 };
+import { willIonicReactionHappen } from "../utils/ionicCompoundReactionUtils";
 
 type ElementToDraw = {
   initXPos: number;
@@ -41,11 +42,6 @@ const AtomReactor = ({ addedElements }: Props) => {
     moveDirection: "LEFT"
   };
 
-  console.log(
-    "_.last(addedElements[1].shells",
-    _.last(addedElements[1].shells)
-  );
-
   useEffect(() => {
     // @ts-ignore
     const context = canvas.current.getContext("2d");
@@ -56,16 +52,22 @@ const AtomReactor = ({ addedElements }: Props) => {
 
     var distanceElementMoved = 1;
 
-    const drawReaction = () => {
+    const drawReaction = window.setInterval(() => {
       if (distanceElementMoved < canvasWidth / 2 - atomSize * 3) {
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         drawAtom(context, firstElement, distanceElementMoved);
         drawAtom(context, secondElement, distanceElementMoved);
         distanceElementMoved += 0.5;
+      } else {
+        window.clearInterval(drawReaction);
+        console.log("reaction done");
+        const willReactionHappen = willIonicReactionHappen(
+          addedElements[0],
+          addedElements[1]
+        );
+        console.log("willReactionHappen", willReactionHappen);
       }
-    };
-
-    window.setInterval(drawReaction, 1);
+    }, 0);
   });
   return (
     <div>

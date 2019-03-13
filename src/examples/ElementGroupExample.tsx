@@ -25,6 +25,12 @@ const ElementGroupExample = () => {
     updateAddedElements([...addedElements, element]);
   };
 
+  const startNewReaction = () => {
+    setIsReacting(false);
+    updateAddedElements([]);
+    setSelectedElement("");
+  };
+
   const removeElement = (element: any) => {
     const indexToDelete = addedElements.findIndex((addedElement: any) => {
       return element.name === addedElement.name;
@@ -75,7 +81,10 @@ const ElementGroupExample = () => {
       />
       <div id="ElementsPreview">
         {isReacting ? (
-          <AtomReactor addedElements={addedElements} />
+          <AtomReactor
+            addedElements={addedElements}
+            startNewReaction={startNewReaction}
+          />
         ) : (
           <SelectedElementsPreview
             addedElements={addedElements}

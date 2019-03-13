@@ -5,6 +5,7 @@ import { css, jsx } from "@emotion/core";
 import { drawAtom } from "../utils/canvasAtomUtils";
 type Props = {
   addedElements: any;
+  startNewReaction: any;
 };
 import { willIonicReactionHappen } from "../utils/ionicCompoundReactionUtils";
 import AtomReactingState from "./AtomReactingState";
@@ -24,7 +25,7 @@ const reactionStates = {
   REACTION_SUCCESS: "REACTION_SUCCESS"
 };
 
-const AtomReactor = ({ addedElements }: Props) => {
+const AtomReactor = ({ addedElements, startNewReaction }: Props) => {
   const [reactionState, setReactionState] = useState(reactionStates.REACTING);
 
   return (
@@ -35,7 +36,12 @@ const AtomReactor = ({ addedElements }: Props) => {
           setReactionState={setReactionState}
         />
       )}
-      {reactionState === reactionStates.NO_REACTION && <div>No Reaction</div>}
+      {reactionState === reactionStates.NO_REACTION && (
+        <div>
+          <h1>No Reaction</h1>
+          <button onClick={startNewReaction}>Try Another Reaction</button>
+        </div>
+      )}
     </div>
   );
 };

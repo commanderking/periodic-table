@@ -64,10 +64,11 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
           addedElements[1]
         );
         console.log("willReactionHappen", willReactionHappen);
-
-        setTimeout(() => {
-          setReactionState(reactionStates.NO_REACTION);
-        }, 2000);
+        if (!willReactionHappen) {
+          setTimeout(() => {
+            setReactionState(reactionStates.NO_REACTION);
+          }, 2000);
+        }
       }
     }, 0);
   });

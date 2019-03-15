@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import ElementGroupExample from "./examples/ElementGroupExample";
+import IonicReactionBasicContainer from "./ionicReactionBasic/IonicReactionBasicContainer";
 import "./App.css";
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <ElementGroupExample />
+        <IonicReactionBasicContainer />
       </div>
     );
   }

@@ -6,10 +6,14 @@ type Props = {
 };
 
 const ReactionText: any = {
-  NO_REACTION: "No Reaction"
+  NO_REACTION: "No Reaction",
+  OUT_OF_SCOPE: "No observed results",
+  REACTION_SUCCESS: "Successful Reaction"
 };
 
 const CompletedReactions = ({ completedReactions }: Props) => {
+  // Why is this needed? Removing it gives error: React is not defined
+  console.log("react", React);
   return (
     <div>
       <div>Completed Reactions</div>

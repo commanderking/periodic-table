@@ -7,13 +7,17 @@ type Props = {
   addedElements: any;
   setReactionState: Function;
 };
-import { willIonicReactionHappen } from "../utils/ionicCompoundReactionUtils";
+import {
+  canIonicReactionHappen,
+  canMolecularReactionHappen
+} from "../utils/ionicCompoundReactionUtils";
 import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
 import { addCompletedReaction } from "../ionicReactionBasic/IonicReactionBasicActions";
 
 const reactionStates = {
   REACTING: "REACTING",
   NO_REACTION: "NO_REACTION",
+  OUT_OF_SCOPE: "OUT_OF_SCOPE",
   REACTION_SUCCESS: "REACTION_SUCCESS"
 };
 
@@ -62,23 +66,60 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
         distanceElementMoved += 0.5;
       } else {
         window.clearInterval(drawReaction);
-        console.log("reaction done");
-        const willReactionHappen = willIonicReactionHappen(
-          addedElements[0],
-          addedElements[1]
+        const [elementOne, elementTwo] = addedElements;
+        const willIonicReactionHappen = canIonicReactionHappen(
+          elementOne,
+          elementTwo
         );
-        console.log("willReactionHappen", willReactionHappen);
-        if (!willReactionHappen) {
+
+        const willMolecularReactionHappen = canMolecularReactionHappen(
+          elementOne,
+          elementTwo
+        );
+
+        // If ionic and molecular reaction won't happen, definitely assert no reaction
+        if (!willIonicReactionHappen && !willMolecularReactionHappen) {
           setTimeout(() => {
             setReactionState(reactionStates.NO_REACTION);
             // @ts-ignore - how can dispatch be null?
             dispatch(
               addCompletedReaction({
                 elements: [firstAtom.symbol, secondAtom.symbol],
-                reactionResult: "NO_REACTION"
+                reactionResult: reactionStates.NO_REACTION
               })
             );
           }, 2000);
+          return;
+        }
+
+        // If molecular reaction can happen, it's out of scope of this experiment
+        if (!willIonicReactionHappen && willMolecularReactionHappen) {
+          setTimeout(() => {
+            setReactionState(reactionStates.NO_REACTION);
+            // @ts-ignore - how can dispatch be null?
+            dispatch(
+              addCompletedReaction({
+                elements: [firstAtom.symbol, secondAtom.symbol],
+                reactionResult: reactionStates.OUT_OF_SCOPE
+              })
+            );
+          }, 2000);
+          return;
+        }
+
+        // If ionic reaction happens, let's show successful reaction:
+        if (willIonicReactionHappen) {
+          setTimeout(() => {
+            setReactionState(reactionStates.REACTION_SUCCESS);
+            // @ts-ignore - how can dispatch be null?
+            dispatch(
+              addCompletedReaction({
+                elements: [firstAtom.symbol, secondAtom.symbol],
+                reactionResult: reactionStates.REACTION_SUCCESS
+              })
+            );
+          }, 5000);
+          return;
         }
       }
     }, 0);

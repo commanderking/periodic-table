@@ -73,7 +73,6 @@ const IonicReactionBasicContainer = () => {
     fetchDataAndUpdateElementsState();
   }, []);
 
-  // const initialCompletedReactions: CompletedReaction[] = [];
   const hasSelectedMaxElements = addedElements.length === 2;
   return (
     <ReactionDispatch.Provider value={dispatch}>
@@ -82,9 +81,10 @@ const IonicReactionBasicContainer = () => {
           id="ElementGroupExample"
           css={css`
             display: grid;
-            grid-template-columns: 1fr 1fr 5fr 1fr 1fr 1fr;
+            grid-template-columns: 3fr 1fr 1fr 5fr 1fr 1fr 1fr;
           `}
         >
+          <CompletedReactions completedReactions={completedReactions} />
           {[1, 2].map(columnNumber => (
             <ElementGroup
               // @ts-ignore
@@ -125,7 +125,6 @@ const IonicReactionBasicContainer = () => {
             />
           ))}
         </div>
-        <CompletedReactions completedReactions={completedReactions} />
       </div>
     </ReactionDispatch.Provider>
   );

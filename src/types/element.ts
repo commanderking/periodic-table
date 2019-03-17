@@ -23,6 +23,6 @@ export interface Element {
 }
 
 export interface ElementWithReactionBehavior extends Element {
-  canFormMolecularCompound?: boolean;
+  canFormMolecularCompound: boolean;
   canFormIonicCompound: boolean;
 }

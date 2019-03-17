@@ -26,7 +26,7 @@ const hasOneDonorAndOneReceiver = (
   return false;
 };
 
-export const willIonicReactionHappen = (
+export const canIonicReactionHappen = (
   elementOne: ElementWithReactionBehavior,
   elementTwo: ElementWithReactionBehavior
 ): boolean => {
@@ -39,4 +39,19 @@ export const willIonicReactionHappen = (
   }
 
   return false;
+};
+
+export const canMolecularReactionHappen = (
+  elementOne: ElementWithReactionBehavior,
+  elementTwo: ElementWithReactionBehavior
+): boolean => {
+  if (
+    !(
+      elementOne.canFormMolecularCompound && elementTwo.canFormMolecularCompound
+    )
+  ) {
+    return false;
+  }
+
+  return true;
 };

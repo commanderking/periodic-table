@@ -40,6 +40,12 @@ const AtomReactor = ({ addedElements, startNewReaction }: Props) => {
           <button onClick={startNewReaction}>Try Another Reaction</button>
         </div>
       )}
+      {reactionState === reactionStates.REACTION_SUCCESS && (
+        <div>
+          <h1>Successful Reaction</h1>
+          <button onClick={startNewReaction}>Try Another Reaction</button>
+        </div>
+      )}
     </div>
   );
 };

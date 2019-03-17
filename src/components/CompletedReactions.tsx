@@ -1,11 +1,31 @@
 import React from "react";
+import { CompletedReaction } from "../types/reaction";
 
-type reaction = { elements: Array<string>; reactionResult: string };
+type Props = {
+  completedReactions: CompletedReaction[];
+};
 
-const CompletedReactions = (reactions: Array<reaction>) => {
-  // map over the reactions and show them in a list
-  // info we need:
-  return {};
+const ReactionText: any = {
+  NO_REACTION: "No Reaction"
+};
+
+const CompletedReactions = ({ completedReactions }: Props) => {
+  return (
+    <div>
+      <div>Completed Reactions</div>
+      {completedReactions.map(reaction => {
+        const { elements, reactionResult } = reaction;
+        return (
+          <div key={`${elements[0] + elements[1]}`}>
+            <span>{elements[0]}</span> +{" "}
+            <span>
+              {elements[1]} --> {ReactionText[reactionResult]}{" "}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
 export default CompletedReactions;

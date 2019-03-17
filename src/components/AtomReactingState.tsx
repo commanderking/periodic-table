@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
+import React, { useRef, useContext, useEffect } from "react";
 import _ from "lodash";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
@@ -8,6 +8,8 @@ type Props = {
   setReactionState: Function;
 };
 import { willIonicReactionHappen } from "../utils/ionicCompoundReactionUtils";
+import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
+import { addCompletedReaction } from "../ionicReactionBasic/IonicReactionBasicActions";
 
 const reactionStates = {
   REACTING: "REACTING",
@@ -40,6 +42,8 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
     moveDirection: "LEFT"
   };
 
+  const dispatch = useContext(ReactionDispatch);
+
   useEffect(() => {
     // @ts-ignore
     const context = canvas.current.getContext("2d");
@@ -67,6 +71,13 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
         if (!willReactionHappen) {
           setTimeout(() => {
             setReactionState(reactionStates.NO_REACTION);
+            // @ts-ignore - how can dispatch be null?
+            dispatch(
+              addCompletedReaction({
+                elements: [firstAtom.symbol, secondAtom.symbol],
+                reactionResult: "NO_REACTION"
+              })
+            );
           }, 2000);
         }
       }

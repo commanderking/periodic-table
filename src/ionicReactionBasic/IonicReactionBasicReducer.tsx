@@ -3,19 +3,24 @@ import {
   SET_SELECTED_ELEMENT,
   ADD_ELEMENT,
   UPDATE_ADDED_ELEMENTS,
-  SET_IS_REACTING
+  SET_IS_REACTING,
+  ADD_COMPLETED_REACTION
 } from "./IonicReactionBasicActions";
+
+import { CompletedReaction } from "../types/reaction";
 
 interface State {
   selectedElement: string;
   addedElements: Array<any>;
   isReacting: boolean;
+  completedReactions: CompletedReaction[];
 }
 
 export const initialState = {
   selectedElement: "",
   addedElements: [],
-  isReacting: false
+  isReacting: false,
+  completedReactions: []
 };
 
 export const reducer = (
@@ -26,12 +31,14 @@ export const reducer = (
       selectedElement?: string;
       addedElements?: Array<any>;
       isReacting?: boolean;
+      completedReaction?: CompletedReaction;
     };
   }
 ) => {
   switch (action.type) {
     case START_NEW_REACTION:
       return {
+        ...state,
         selectedElement: "",
         addedElements: [],
         isReacting: false
@@ -55,6 +62,14 @@ export const reducer = (
       return {
         ...state,
         ...action.payload
+      };
+    case ADD_COMPLETED_REACTION:
+      return {
+        ...state,
+        completedReactions: [
+          ...state.completedReactions,
+          action.payload.completedReaction
+        ]
       };
     default:
       throw new Error();

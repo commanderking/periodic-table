@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useReducer } from "react";
+/** @jsx jsx */
+import { jsx, css } from "@emotion/core";
 import ElementGroup from "../components/ElementGroup";
 import { fetchPeriodicTableDataGroupedByColumn } from "../requests/periodicTable";
 import SelectedElementsPreview from "../components/SelectedElementsPreview";
 import AtomReactor from "../components/AtomReactor";
-/** @jsx jsx */
-import { jsx, css } from "@emotion/core";
+import CompletedReactions from "../components/CompletedReactions";
 import { reducer, initialState } from "./IonicReactionBasicReducer";
 import {
   START_NEW_REACTION,
@@ -13,12 +14,20 @@ import {
   UPDATE_ADDED_ELEMENTS,
   SET_IS_REACTING
 } from "./IonicReactionBasicActions";
+import { CompletedReaction } from "../types/reaction";
+
+export const ReactionDispatch = React.createContext(null);
 
 const IonicReactionBasicContainer = () => {
   const [elementsByColumn, setElements] = useState({});
   // @ts-ignore
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { selectedElement, addedElements, isReacting } = state;
+  const {
+    selectedElement,
+    addedElements,
+    isReacting,
+    completedReactions
+  } = state;
 
   const addElement = (element: Object) => {
     dispatch({
@@ -64,55 +73,61 @@ const IonicReactionBasicContainer = () => {
     fetchDataAndUpdateElementsState();
   }, []);
 
+  // const initialCompletedReactions: CompletedReaction[] = [];
   const hasSelectedMaxElements = addedElements.length === 2;
   return (
-    <div
-      id="ElementGroupExample"
-      css={css`
-        display: grid;
-        grid-template-columns: 1fr 1fr 5fr 1fr 1fr 1fr;
-      `}
-    >
-      {[1, 2].map(columnNumber => (
-        <ElementGroup
-          // @ts-ignore
-          elements={elementsByColumn[columnNumber] || []}
-          selectedElement={selectedElement}
-          setElement={setSelectedElement}
-          addElement={addElement}
-          hasSelectedMaxElements={hasSelectedMaxElements}
-          id={`PeriodicTableColumn${columnNumber}`}
-          key={`PeriodicTableColumn${columnNumber}`}
-        />
-      ))}
-      <div id="ElementsPreview">
-        {isReacting ? (
-          <AtomReactor
-            addedElements={addedElements}
-            startNewReaction={startNewReaction}
-          />
-        ) : (
-          <SelectedElementsPreview
-            addedElements={addedElements}
-            removeElement={removeElement}
-            hasSelectedMaxElements={hasSelectedMaxElements}
-            setIsReacting={setIsReacting}
-          />
-        )}
-      </div>{" "}
-      {[16, 17, 18].map(columnNumber => (
-        <ElementGroup
-          // @ts-ignore
-          elements={elementsByColumn[columnNumber] || []}
-          selectedElement={selectedElement}
-          setElement={setSelectedElement}
-          addElement={addElement}
-          hasSelectedMaxElements={hasSelectedMaxElements}
-          id={`PeriodicTableColumn${columnNumber}`}
-          key={`PeriodicTableColumn${columnNumber}`}
-        />
-      ))}
-    </div>
+    <ReactionDispatch.Provider value={dispatch}>
+      <div>
+        <div
+          id="ElementGroupExample"
+          css={css`
+            display: grid;
+            grid-template-columns: 1fr 1fr 5fr 1fr 1fr 1fr;
+          `}
+        >
+          {[1, 2].map(columnNumber => (
+            <ElementGroup
+              // @ts-ignore
+              elements={elementsByColumn[columnNumber] || []}
+              selectedElement={selectedElement}
+              setElement={setSelectedElement}
+              addElement={addElement}
+              hasSelectedMaxElements={hasSelectedMaxElements}
+              id={`PeriodicTableColumn${columnNumber}`}
+              key={`PeriodicTableColumn${columnNumber}`}
+            />
+          ))}
+          <div id="ElementsPreview">
+            {isReacting ? (
+              <AtomReactor
+                addedElements={addedElements}
+                startNewReaction={startNewReaction}
+              />
+            ) : (
+              <SelectedElementsPreview
+                addedElements={addedElements}
+                removeElement={removeElement}
+                hasSelectedMaxElements={hasSelectedMaxElements}
+                setIsReacting={setIsReacting}
+              />
+            )}
+          </div>{" "}
+          {[16, 17, 18].map(columnNumber => (
+            <ElementGroup
+              // @ts-ignore
+              elements={elementsByColumn[columnNumber] || []}
+              selectedElement={selectedElement}
+              setElement={setSelectedElement}
+              addElement={addElement}
+              hasSelectedMaxElements={hasSelectedMaxElements}
+              id={`PeriodicTableColumn${columnNumber}`}
+              key={`PeriodicTableColumn${columnNumber}`}
+            />
+          ))}
+        </div>
+        <CompletedReactions completedReactions={completedReactions} />
+      </div>
+    </ReactionDispatch.Provider>
   );
 };
 

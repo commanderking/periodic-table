@@ -2,12 +2,10 @@ import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
 import _ from "lodash";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
-import { drawAtom } from "../utils/canvasAtomUtils";
 type Props = {
   addedElements: any;
   startNewReaction: any;
 };
-import { willIonicReactionHappen } from "../utils/ionicCompoundReactionUtils";
 import AtomReactingState from "./AtomReactingState";
 
 type ElementToDraw = {

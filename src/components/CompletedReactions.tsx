@@ -1,31 +1,23 @@
 import React from "react";
 import { CompletedReaction } from "../types/reaction";
-
+import CompletedReactionItem from "./CompletedReactionItem";
 type Props = {
   completedReactions: CompletedReaction[];
 };
 
-const ReactionText: any = {
-  NO_REACTION: "No Reaction",
-  OUT_OF_SCOPE: "No observed results",
-  REACTION_SUCCESS: "Successful Reaction"
-};
-
 const CompletedReactions = ({ completedReactions }: Props) => {
-  // Why is this needed? Removing it gives error: React is not defined
   console.log("react", React);
   return (
     <div>
-      <div>Completed Reactions</div>
+      <h4>Completed Reactions</h4>
+      {completedReactions.length === 0 && <div>No Observed Reactions Yet</div>}
       {completedReactions.map(reaction => {
         const { elements, reactionResult } = reaction;
         return (
-          <div key={`${elements[0] + elements[1]}`}>
-            <span>{elements[0]}</span> +{" "}
-            <span>
-              {elements[1]} --> {ReactionText[reactionResult]}{" "}
-            </span>
-          </div>
+          <CompletedReactionItem
+            elements={elements}
+            reactionResult={reactionResult}
+          />
         );
       })}
     </div>

@@ -1,9 +1,11 @@
 import React from "react";
-import { setIsReacting } from "../ionicReactionBasic/IonicReactionBasicActions";
+import {
+  setIsReacting,
+  removeElement
+} from "../ionicReactionBasic/IonicReactionBasicActions";
 
 const SelectedElementsPreview = ({
   addedElements,
-  removeElement,
   hasSelectedMaxElements,
   dispatch
 }: any) => {
@@ -22,7 +24,7 @@ const SelectedElementsPreview = ({
             <p>{element.symbol}</p>
             <button
               onClick={() => {
-                removeElement(element);
+                dispatch(removeElement(element));
               }}
             >
               X

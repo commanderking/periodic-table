@@ -2,7 +2,7 @@ import {
   START_NEW_REACTION,
   SET_SELECTED_ELEMENT,
   ADD_ELEMENT,
-  UPDATE_ADDED_ELEMENTS,
+  REMOVE_ELEMENT,
   SET_IS_REACTING,
   ADD_COMPLETED_REACTION
 } from "./IonicReactionBasicActions";
@@ -30,6 +30,7 @@ export const reducer = (
     payload: {
       selectedElement?: string;
       addedElement?: Array<any>;
+      removedElement?: any;
       isReacting?: boolean;
       completedReaction?: CompletedReaction;
     };
@@ -53,10 +54,21 @@ export const reducer = (
         ...state,
         addedElements: [...state.addedElements, action.payload.addedElement]
       };
-    case UPDATE_ADDED_ELEMENTS:
+    case REMOVE_ELEMENT:
+      const { removedElement } = action.payload;
+      const indexToDelete = state.addedElements.findIndex((element: any) => {
+        return removedElement.name === element.name;
+      });
+
+      // We can't simply filter because user might select two of the same element
+      const updatedAddedElements = state.addedElements.filter(
+        (element: any, index: number) => {
+          return index !== indexToDelete;
+        }
+      );
       return {
         ...state,
-        ...action.payload
+        addedElements: updatedAddedElements
       };
     case SET_IS_REACTING:
       return {

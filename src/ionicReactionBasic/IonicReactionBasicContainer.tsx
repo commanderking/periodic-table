@@ -7,10 +7,6 @@ import SelectedElementsPreview from "../components/SelectedElementsPreview";
 import AtomReactor from "../components/AtomReactor";
 import CompletedReactions from "../components/CompletedReactions";
 import { reducer, initialState } from "./IonicReactionBasicReducer";
-import {
-  SET_SELECTED_ELEMENT,
-  UPDATE_ADDED_ELEMENTS
-} from "./IonicReactionBasicActions";
 
 export const ReactionDispatch = React.createContext(null);
 
@@ -24,22 +20,6 @@ const IonicReactionBasicContainer = () => {
     isReacting,
     completedReactions
   } = state;
-
-  const removeElement = (element: any) => {
-    const indexToDelete = addedElements.findIndex((addedElement: any) => {
-      return element.name === addedElement.name;
-    });
-
-    const updatedAddedElements = addedElements.filter(
-      (element: any, index: number) => {
-        return index !== indexToDelete;
-      }
-    );
-    dispatch({
-      type: UPDATE_ADDED_ELEMENTS,
-      payload: { addedElements: updatedAddedElements, selectedElement: "" }
-    });
-  };
 
   const fetchDataAndUpdateElementsState = async () => {
     const periodicTableDataByColumn = await fetchPeriodicTableDataGroupedByColumn();
@@ -78,7 +58,6 @@ const IonicReactionBasicContainer = () => {
             ) : (
               <SelectedElementsPreview
                 addedElements={addedElements}
-                removeElement={removeElement}
                 hasSelectedMaxElements={hasSelectedMaxElements}
                 dispatch={dispatch}
               />

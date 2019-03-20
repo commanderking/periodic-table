@@ -4,7 +4,7 @@ import { ElementWithReactionBehavior } from "../types/element";
 export const START_NEW_REACTION = "START_NEW_REACTION";
 export const SET_SELECTED_ELEMENT = "SET_SELECTED_ELEMENT";
 export const ADD_ELEMENT = "ADD_ELEMENT";
-export const UPDATE_ADDED_ELEMENTS = "UPDATE_ADDED_ELEMENTS";
+export const REMOVE_ELEMENT = "REMOVE_ELEMENT";
 export const SET_IS_REACTING = "SET_IS_REACTING";
 export const ADD_COMPLETED_REACTION = "ADD_COMPLETED_REACTION";
 
@@ -36,3 +36,10 @@ export const setSelectedElement = (selectedElement: string) => ({
   type: SET_SELECTED_ELEMENT,
   payload: { selectedElement }
 });
+
+export const removeElement = (element: ElementWithReactionBehavior) => {
+  return {
+    type: REMOVE_ELEMENT,
+    payload: { removedElement: element }
+  };
+};

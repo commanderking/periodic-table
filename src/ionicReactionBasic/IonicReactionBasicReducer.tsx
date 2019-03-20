@@ -29,7 +29,7 @@ export const reducer = (
     type: string;
     payload: {
       selectedElement?: string;
-      addedElements?: Array<any>;
+      addedElement?: Array<any>;
       isReacting?: boolean;
       completedReaction?: CompletedReaction;
     };
@@ -51,7 +51,7 @@ export const reducer = (
     case ADD_ELEMENT:
       return {
         ...state,
-        addedElements: action.payload.addedElements
+        addedElements: [...state.addedElements, action.payload.addedElement]
       };
     case UPDATE_ADDED_ELEMENTS:
       return {

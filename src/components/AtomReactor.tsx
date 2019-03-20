@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
 import _ from "lodash";
-/** @jsx jsx */
-import { css, jsx } from "@emotion/core";
+import { startNewReaction } from "../ionicReactionBasic/IonicReactionBasicActions";
+
 type Props = {
   addedElements: any;
-  startNewReaction: any;
+  dispatch: any;
 };
 import AtomReactingState from "./AtomReactingState";
 
@@ -23,9 +23,9 @@ const reactionStates = {
   REACTION_SUCCESS: "REACTION_SUCCESS"
 };
 
-const AtomReactor = ({ addedElements, startNewReaction }: Props) => {
+const AtomReactor = ({ addedElements, dispatch }: Props) => {
   const [reactionState, setReactionState] = useState(reactionStates.REACTING);
-
+  console.log("react", React);
   return (
     <div>
       {reactionState === reactionStates.REACTING && (
@@ -37,13 +37,25 @@ const AtomReactor = ({ addedElements, startNewReaction }: Props) => {
       {reactionState === reactionStates.NO_REACTION && (
         <div>
           <h1>No Reaction</h1>
-          <button onClick={startNewReaction}>Try Another Reaction</button>
+          <button
+            onClick={() => {
+              dispatch(startNewReaction());
+            }}
+          >
+            Try Another Reaction
+          </button>
         </div>
       )}
       {reactionState === reactionStates.REACTION_SUCCESS && (
         <div>
           <h1>Successful Reaction</h1>
-          <button onClick={startNewReaction}>Try Another Reaction</button>
+          <button
+            onClick={() => {
+              dispatch(startNewReaction());
+            }}
+          >
+            Try Another Reaction
+          </button>
         </div>
       )}
     </div>

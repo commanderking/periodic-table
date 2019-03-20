@@ -1,13 +1,13 @@
 import React from "react";
-/** @jsx jsx */
-import { css, jsx } from "@emotion/core";
+import { setIsReacting } from "../ionicReactionBasic/IonicReactionBasicActions";
 
 const SelectedElementsPreview = ({
   addedElements,
   removeElement,
   hasSelectedMaxElements,
-  setIsReacting
+  dispatch
 }: any) => {
+  console.log("react", React);
   return (
     <div id="ElementsPreview">
       {addedElements.length === 0 ? (
@@ -33,7 +33,7 @@ const SelectedElementsPreview = ({
       {hasSelectedMaxElements && (
         <button
           onClick={() => {
-            setIsReacting(true);
+            dispatch(setIsReacting(true));
           }}
         >
           Mix Atoms

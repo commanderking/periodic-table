@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
+import { addElement } from "../ionicReactionBasic/IonicReactionBasicActions";
+import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
 
 interface Element {
   name: string;
@@ -10,14 +12,14 @@ interface Element {
 const ElementBlock = ({
   element,
   clickHandler,
-  isSelected,
-  addElement
+  isSelected
 }: {
   element: Element;
   clickHandler: any;
   isSelected: boolean;
-  addElement: any;
 }) => {
+  const dispatch = useContext(ReactionDispatch);
+
   const isSelectedBackgroundColor = isSelected ? "red" : "white";
   return (
     <div
@@ -49,7 +51,10 @@ const ElementBlock = ({
       {isSelected && (
         <button
           onClick={() => {
-            addElement(element);
+            console.log("dispatch", dispatch);
+            console.log();
+            // @ts-ignore
+            dispatch(addElement(element));
           }}
         >
           Add

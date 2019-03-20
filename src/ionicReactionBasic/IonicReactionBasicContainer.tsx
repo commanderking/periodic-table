@@ -8,13 +8,9 @@ import AtomReactor from "../components/AtomReactor";
 import CompletedReactions from "../components/CompletedReactions";
 import { reducer, initialState } from "./IonicReactionBasicReducer";
 import {
-  START_NEW_REACTION,
   SET_SELECTED_ELEMENT,
-  ADD_ELEMENT,
-  UPDATE_ADDED_ELEMENTS,
-  SET_IS_REACTING
+  UPDATE_ADDED_ELEMENTS
 } from "./IonicReactionBasicActions";
-import { CompletedReaction } from "../types/reaction";
 
 export const ReactionDispatch = React.createContext(null);
 
@@ -28,17 +24,6 @@ const IonicReactionBasicContainer = () => {
     isReacting,
     completedReactions
   } = state;
-
-  const addElement = (element: Object) => {
-    dispatch({
-      type: ADD_ELEMENT,
-      payload: { addedElements: [...state.addedElements, element] }
-    });
-  };
-
-  const startNewReaction = () => {
-    dispatch({ type: START_NEW_REACTION, payload: {} });
-  };
 
   const removeElement = (element: any) => {
     const indexToDelete = addedElements.findIndex((addedElement: any) => {
@@ -54,14 +39,6 @@ const IonicReactionBasicContainer = () => {
       type: UPDATE_ADDED_ELEMENTS,
       payload: { addedElements: updatedAddedElements, selectedElement: "" }
     });
-  };
-
-  const setSelectedElement = (selectedElement: string) => {
-    dispatch({ type: SET_SELECTED_ELEMENT, payload: { selectedElement } });
-  };
-
-  const setIsReacting = (isReacting: boolean) => {
-    dispatch({ type: SET_IS_REACTING, payload: { isReacting } });
   };
 
   const fetchDataAndUpdateElementsState = async () => {
@@ -90,8 +67,6 @@ const IonicReactionBasicContainer = () => {
               // @ts-ignore
               elements={elementsByColumn[columnNumber] || []}
               selectedElement={selectedElement}
-              setElement={setSelectedElement}
-              addElement={addElement}
               hasSelectedMaxElements={hasSelectedMaxElements}
               id={`PeriodicTableColumn${columnNumber}`}
               key={`PeriodicTableColumn${columnNumber}`}
@@ -99,16 +74,13 @@ const IonicReactionBasicContainer = () => {
           ))}
           <div id="ElementsPreview">
             {isReacting ? (
-              <AtomReactor
-                addedElements={addedElements}
-                startNewReaction={startNewReaction}
-              />
+              <AtomReactor addedElements={addedElements} dispatch={dispatch} />
             ) : (
               <SelectedElementsPreview
                 addedElements={addedElements}
                 removeElement={removeElement}
                 hasSelectedMaxElements={hasSelectedMaxElements}
-                setIsReacting={setIsReacting}
+                dispatch={dispatch}
               />
             )}
           </div>{" "}
@@ -117,8 +89,6 @@ const IonicReactionBasicContainer = () => {
               // @ts-ignore
               elements={elementsByColumn[columnNumber] || []}
               selectedElement={selectedElement}
-              setElement={setSelectedElement}
-              addElement={addElement}
               hasSelectedMaxElements={hasSelectedMaxElements}
               id={`PeriodicTableColumn${columnNumber}`}
               key={`PeriodicTableColumn${columnNumber}`}

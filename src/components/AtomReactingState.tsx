@@ -9,10 +9,12 @@ type Props = {
 };
 import {
   canIonicReactionHappen,
-  canMolecularReactionHappen
+  canMolecularReactionHappen,
+  getAllAtomsInReaction
 } from "../utils/ionicCompoundReactionUtils";
 import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
 import { addCompletedReaction } from "../ionicReactionBasic/IonicReactionBasicActions";
+// import { ElementToDraw } from '../ionicReactionBasic/IonicReactionBasicTypes';
 
 const reactionStates = {
   REACTING: "REACTING",
@@ -46,6 +48,12 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
     moveDirection: "LEFT"
   };
 
+  const allAtoms = getAllAtomsInReaction(
+    // @ts-ignore - thinks valenceElectrons can be null. Perhaps beacuse _.last in combination with getting 0th element in array
+    firstAtom,
+    secondAtom
+  );
+
   const dispatch = useContext(ReactionDispatch);
 
   useEffect(() => {
@@ -61,8 +69,9 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
     const drawReaction = window.setInterval(() => {
       if (distanceElementMoved < canvasWidth / 2 - atomSize * 3) {
         context.clearRect(0, 0, canvasWidth, canvasHeight);
-        drawAtom(context, firstAtom, distanceElementMoved);
-        drawAtom(context, secondAtom, distanceElementMoved);
+        allAtoms.map(atom => {
+          drawAtom(context, atom, distanceElementMoved);
+        });
         distanceElementMoved += 0.5;
       } else {
         window.clearInterval(drawReaction);
@@ -95,6 +104,8 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
         // If molecular reaction can happen, it's out of scope of this experiment
         if (!willIonicReactionHappen && willMolecularReactionHappen) {
           setTimeout(() => {
+            // Move electrons around
+
             setReactionState(reactionStates.NO_REACTION);
             // @ts-ignore - how can dispatch be null?
             dispatch(

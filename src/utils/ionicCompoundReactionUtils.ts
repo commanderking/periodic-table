@@ -1,6 +1,8 @@
 // Determine if elements can actually react
-import { ElementWithReactionBehavior, Element } from "../types/element";
 import _ from "lodash";
+import { ElementWithReactionBehavior, Element } from "../types/element";
+import { ElementToDraw } from "../ionicReactionBasic/IonicReactionBasicTypes";
+
 const getValenceElectrons = (
   element: Element | ElementWithReactionBehavior
 ): number | null => {
@@ -54,4 +56,51 @@ export const canMolecularReactionHappen = (
   }
 
   return true;
+};
+
+const getIonicCharge = (atom: ElementToDraw): number => {
+  const { valenceElectrons } = atom;
+  const charge =
+    valenceElectrons < 4 ? valenceElectrons : Math.abs(valenceElectrons - 8);
+  return charge;
+};
+
+const getYOffsetBetweenAtoms = (radius: number): number => {
+  return radius * 2 + 40;
+};
+
+// To balance charges, more than one of each element might need to be present
+export const getAllAtomsInReaction = (
+  firstAtom: ElementToDraw,
+  secondAtom: ElementToDraw
+) => {
+  // 1 valence - 7 valence electrons
+  const firstAtomIonicCharge = getIonicCharge(firstAtom);
+  const secondAtomIonicCharge = getIonicCharge(secondAtom);
+
+  const leastCommonMultiple =
+    firstAtomIonicCharge === secondAtomIonicCharge
+      ? firstAtomIonicCharge
+      : firstAtomIonicCharge * secondAtomIonicCharge;
+
+  const numberOfFirstAtomNeeded = leastCommonMultiple / firstAtomIonicCharge;
+  const numberOfSecondAtomNeeded = leastCommonMultiple / secondAtomIonicCharge;
+
+  const atomsOfFirstElement = _.times(numberOfFirstAtomNeeded, index => {
+    return {
+      ...firstAtom,
+      yPos: firstAtom.yPos + index * getYOffsetBetweenAtoms(firstAtom.radius),
+      ionicCharge: firstAtomIonicCharge
+    };
+  });
+
+  const atomsOfSecondElement = _.times(numberOfSecondAtomNeeded, index => {
+    return {
+      ...secondAtom,
+      yPos: secondAtom.yPos + index * getYOffsetBetweenAtoms(secondAtom.radius),
+      ionicCharge: secondAtomIonicCharge
+    };
+  });
+
+  return [...atomsOfFirstElement, ...atomsOfSecondElement];
 };

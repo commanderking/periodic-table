@@ -8,15 +8,6 @@ type Props = {
 };
 import AtomReactingState from "./AtomReactingState";
 
-type ElementToDraw = {
-  initXPos: number;
-  yPos: number;
-  radius: number;
-  symbol: string;
-  valenceElectrons: number;
-  moveDirection: string; // update to enum
-};
-
 const reactionStates = {
   REACTING: "REACTING",
   NO_REACTION: "NO_REACTION",

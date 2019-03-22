@@ -58,8 +58,7 @@ export const canMolecularReactionHappen = (
   return true;
 };
 
-const getIonicCharge = (atom: ElementToDraw): number => {
-  const { valenceElectrons } = atom;
+export const getIonicCharge = (valenceElectrons: number): number => {
   const charge = valenceElectrons < 4 ? valenceElectrons : valenceElectrons - 8;
   return charge;
 };
@@ -73,8 +72,8 @@ export const getAllAtomsInReaction = (
   firstAtom: ElementToDraw,
   secondAtom: ElementToDraw
 ) => {
-  const firstAtomIonicCharge = getIonicCharge(firstAtom);
-  const secondAtomIonicCharge = getIonicCharge(secondAtom);
+  const firstAtomIonicCharge = firstAtom.ionicCharge;
+  const secondAtomIonicCharge = secondAtom.ionicCharge;
 
   // Case of having a noble gas - nothing will react and we'll just show one of each atom attempting to react
   if (firstAtomIonicCharge === 0 || secondAtomIonicCharge === 0) {
@@ -95,21 +94,15 @@ export const getAllAtomsInReaction = (
     leastCommonMultiple / secondAtomIonicCharge
   );
 
-  const atomsOfFirstElement = _.times(numberOfFirstAtomNeeded, index => {
-    return {
-      ...firstAtom,
-      yPos: firstAtom.yPos + index * getYOffsetBetweenAtoms(firstAtom.radius),
-      ionicCharge: firstAtomIonicCharge
-    };
-  });
+  const atomsOfFirstElement = _.times(numberOfFirstAtomNeeded, index => ({
+    ...firstAtom,
+    yPos: firstAtom.yPos + index * getYOffsetBetweenAtoms(firstAtom.radius)
+  }));
 
-  const atomsOfSecondElement = _.times(numberOfSecondAtomNeeded, index => {
-    return {
-      ...secondAtom,
-      yPos: secondAtom.yPos + index * getYOffsetBetweenAtoms(secondAtom.radius),
-      ionicCharge: secondAtomIonicCharge
-    };
-  });
+  const atomsOfSecondElement = _.times(numberOfSecondAtomNeeded, index => ({
+    ...secondAtom,
+    yPos: secondAtom.yPos + index * getYOffsetBetweenAtoms(secondAtom.radius)
+  }));
 
   return [...atomsOfFirstElement, ...atomsOfSecondElement];
 };

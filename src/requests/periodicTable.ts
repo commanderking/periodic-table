@@ -1,6 +1,8 @@
 import _ from "lodash";
 import elements from "../sampleData/periodicTable";
 import elementReactivity from "../sampleData/elementReactivity";
+import { getIonicCharge } from "../utils/ionicCompoundReactionUtils";
+
 const periodicTableUrl =
   "https://s3.amazonaws.com/alliance-chemistry/periodicTable/periodicTable.json";
 
@@ -26,7 +28,8 @@ export const fetchPeriodicTableDataGroupedByColumn = async () => {
       return {
         ...element,
         // @ts-ignore - need to enum elements to make sure element symbol key exists in both elements data and reactivity of elements
-        ...elementReactivity[element.symbol]
+        ...elementReactivity[element.symbol],
+        ionicCharge: getIonicCharge(_.last(element.shells) || 0)
       };
     });
 

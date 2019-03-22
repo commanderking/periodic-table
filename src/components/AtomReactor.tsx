@@ -1,5 +1,4 @@
-import React, { useRef, useState, useEffect, useLayoutEffect } from "react";
-import _ from "lodash";
+import React, { useState } from "react";
 import { startNewReaction } from "../ionicReactionBasic/IonicReactionBasicActions";
 
 type Props = {

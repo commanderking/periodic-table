@@ -14,7 +14,6 @@ import {
 } from "../utils/ionicCompoundReactionUtils";
 import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
 import { addCompletedReaction } from "../ionicReactionBasic/IonicReactionBasicActions";
-// import { ElementToDraw } from '../ionicReactionBasic/IonicReactionBasicTypes';
 
 const reactionStates = {
   REACTING: "REACTING",
@@ -36,6 +35,7 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
     radius: atomSize,
     symbol: addedElements[0].symbol,
     valenceElectrons: _.last(addedElements[0].shells),
+    ionicCharge: addedElements[0].ionicCharge,
     moveDirection: "RIGHT"
   };
 
@@ -45,6 +45,7 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
     radius: atomSize,
     symbol: addedElements[1].symbol,
     valenceElectrons: _.last(addedElements[1].shells),
+    ionicCharge: addedElements[1].ionicCharge,
     moveDirection: "LEFT"
   };
 
@@ -132,7 +133,7 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
           });
 
           newAtomsAfterReaction.map(atom => {
-            drawAtom(context, atom, distanceElementMoved);
+            drawAtom(context, atom, distanceElementMoved, true);
           });
 
           setTimeout(() => {

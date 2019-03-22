@@ -4,5 +4,6 @@ export type ElementToDraw = {
   radius: number;
   symbol: string;
   valenceElectrons: number;
+  ionicCharge: number;
   moveDirection: string; // update to enum
 };

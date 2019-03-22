@@ -60,8 +60,7 @@ export const canMolecularReactionHappen = (
 
 const getIonicCharge = (atom: ElementToDraw): number => {
   const { valenceElectrons } = atom;
-  const charge =
-    valenceElectrons < 4 ? valenceElectrons : Math.abs(valenceElectrons - 8);
+  const charge = valenceElectrons < 4 ? valenceElectrons : valenceElectrons - 8;
   return charge;
 };
 
@@ -74,17 +73,27 @@ export const getAllAtomsInReaction = (
   firstAtom: ElementToDraw,
   secondAtom: ElementToDraw
 ) => {
-  // 1 valence - 7 valence electrons
   const firstAtomIonicCharge = getIonicCharge(firstAtom);
   const secondAtomIonicCharge = getIonicCharge(secondAtom);
 
+  // Case of having a noble gas - nothing will react and we'll just show one of each atom attempting to react
+  if (firstAtomIonicCharge === 0 || secondAtomIonicCharge === 0) {
+    return [
+      { ...firstAtom, ionicCharge: firstAtomIonicCharge },
+      { ...secondAtom, ionicCharge: secondAtomIonicCharge }
+    ];
+  }
   const leastCommonMultiple =
-    firstAtomIonicCharge === secondAtomIonicCharge
+    Math.abs(firstAtomIonicCharge) === Math.abs(secondAtomIonicCharge)
       ? firstAtomIonicCharge
       : firstAtomIonicCharge * secondAtomIonicCharge;
 
-  const numberOfFirstAtomNeeded = leastCommonMultiple / firstAtomIonicCharge;
-  const numberOfSecondAtomNeeded = leastCommonMultiple / secondAtomIonicCharge;
+  const numberOfFirstAtomNeeded = Math.abs(
+    leastCommonMultiple / firstAtomIonicCharge
+  );
+  const numberOfSecondAtomNeeded = Math.abs(
+    leastCommonMultiple / secondAtomIonicCharge
+  );
 
   const atomsOfFirstElement = _.times(numberOfFirstAtomNeeded, index => {
     return {

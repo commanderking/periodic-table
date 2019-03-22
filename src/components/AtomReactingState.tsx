@@ -120,6 +120,21 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
 
         // If ionic reaction happens, let's show successful reaction:
         if (willIonicReactionHappen) {
+          context.clearRect(0, 0, canvasWidth, canvasHeight);
+
+          // Clear out the electrons on the atom losing electrons
+          const newAtomsAfterReaction = allAtoms.map(atom => {
+            return {
+              ...atom,
+              // Atom will either lose or gain electrons to form complete outer shell
+              valenceElectrons: atom.ionicCharge > 0 ? 0 : 8
+            };
+          });
+
+          newAtomsAfterReaction.map(atom => {
+            drawAtom(context, atom, distanceElementMoved);
+          });
+
           setTimeout(() => {
             setReactionState(reactionStates.REACTION_SUCCESS);
             // @ts-ignore - how can dispatch be null?

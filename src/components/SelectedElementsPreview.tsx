@@ -17,21 +17,19 @@ const SelectedElementsPreview = ({
       ) : (
         <h1>Selected Elements</h1>
       )}
-      {addedElements.map((element: any, index: number) => {
-        return (
-          <div key={element.name + index}>
-            <p>{element.name}</p>
-            <p>{element.symbol}</p>
-            <button
-              onClick={() => {
-                dispatch(removeElement(element));
-              }}
-            >
-              X
-            </button>
-          </div>
-        );
-      })}
+      {addedElements.map((element: any, index: number) => (
+        <div key={element.name + index}>
+          <p>{element.name}</p>
+          <p>{element.symbol}</p>
+          <button
+            onClick={() => {
+              dispatch(removeElement(element));
+            }}
+          >
+            X
+          </button>
+        </div>
+      ))}
       {hasSelectedMaxElements && (
         <button
           onClick={() => {

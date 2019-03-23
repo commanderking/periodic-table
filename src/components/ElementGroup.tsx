@@ -5,10 +5,7 @@ import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContai
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import { setSelectedElement } from "../ionicReactionBasic/IonicReactionBasicActions";
-interface Element {
-  name: string;
-  symbol: string;
-}
+import { Element } from "../types/element";
 
 const ElementGroup = ({
   elements,
@@ -22,7 +19,6 @@ const ElementGroup = ({
   hasSelectedMaxElements: boolean;
 }) => {
   const dispatch = useContext(ReactionDispatch);
-
   return (
     <div
       id={id}

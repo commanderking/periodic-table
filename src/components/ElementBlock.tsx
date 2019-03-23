@@ -3,11 +3,7 @@ import React, { useContext } from "react";
 import { css, jsx } from "@emotion/core";
 import { addElement } from "../ionicReactionBasic/IonicReactionBasicActions";
 import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
-
-interface Element {
-  name: string;
-  symbol: string;
-}
+import { Element } from "../types/element";
 
 const ElementBlock = ({
   element,
@@ -19,8 +15,8 @@ const ElementBlock = ({
   isSelected: boolean;
 }) => {
   const dispatch = useContext(ReactionDispatch);
-
   const isSelectedBackgroundColor = isSelected ? "red" : "white";
+
   return (
     <div
       onClick={() => {
@@ -51,8 +47,6 @@ const ElementBlock = ({
       {isSelected && (
         <button
           onClick={() => {
-            console.log("dispatch", dispatch);
-            console.log();
             // @ts-ignore
             dispatch(addElement(element));
           }}

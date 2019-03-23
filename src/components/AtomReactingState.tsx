@@ -22,6 +22,11 @@ const reactionStates = {
   REACTION_SUCCESS: "REACTION_SUCCESS"
 };
 
+const moveDirection = {
+  LEFT: "LEFT",
+  RIGHT: "RIGHT"
+};
+
 const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
   const canvasWidth = 500;
   const canvasHeight = 300;
@@ -31,22 +36,22 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
 
   const firstAtom = {
     initXPos: 25,
-    yPos: 50,
+    yPos: canvasHeight / 2,
     radius: atomSize,
     symbol: addedElements[0].symbol,
     valenceElectrons: _.last(addedElements[0].shells),
     ionicCharge: addedElements[0].ionicCharge,
-    moveDirection: "RIGHT"
+    moveDirection: moveDirection.RIGHT
   };
 
   const secondAtom = {
     initXPos: canvasWidth - 25,
-    yPos: 50,
+    yPos: canvasHeight / 2,
     radius: atomSize,
     symbol: addedElements[1].symbol,
     valenceElectrons: _.last(addedElements[1].shells),
     ionicCharge: addedElements[1].ionicCharge,
-    moveDirection: "LEFT"
+    moveDirection: moveDirection.LEFT
   };
 
   const allAtoms = getAllAtomsInReaction(

@@ -62,7 +62,7 @@ const IonicReactionBasicContainer = () => {
                 dispatch={dispatch}
               />
             )}
-          </div>{" "}
+          </div>
           {[16, 17, 18].map(columnNumber => (
             <ElementGroup
               // @ts-ignore

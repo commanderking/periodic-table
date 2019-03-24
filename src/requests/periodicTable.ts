@@ -2,40 +2,64 @@ import _ from "lodash";
 import elements from "../sampleData/periodicTable";
 import elementReactivity from "../sampleData/elementReactivity";
 import { getIonicCharge } from "../utils/ionicCompoundReactionUtils";
+import { useEffect, useState } from "react";
 
 const periodicTableUrl =
   "https://s3.amazonaws.com/alliance-chemistry/periodicTable/periodicTable.json";
 
-const fetchPeriodicTableData = async () => {
+const appendReactivityAndIonicCharge = (element: any) => {
+  return {
+    ...element,
+    // @ts-ignore - need to enum elements to make sure element symbol key exists in both elements data and reactivity of elements
+    ...elementReactivity[element.symbol],
+    ionicCharge: getIonicCharge(_.last(element.shells) || 0)
+  };
+};
+
+const fetchByColumn = async (apiState: any, setAPIState: any) => {
+  setAPIState({
+    ...apiState,
+    isLoading: true
+  });
   try {
     // const response = await fetch(periodicTableUrl);
     // const data = await response.json();
-    // return data.elements;
+
+    // const elementsWithReactivity = data.elements.map(
+    //   appendReactivityAndIonicCharge
+    // );
+
+    // For offline Testing
+    const elementsWithReactivity = elements.map(appendReactivityAndIonicCharge);
+
+    setAPIState({
+      ...apiState,
+      data: _.groupBy(elementsWithReactivity, "xpos"),
+      isLoading: false
+    });
 
     // For offline testing
-    return elements;
+    // return elements;
   } catch (err) {
-    console.log("error", err);
+    setAPIState({
+      ...apiState,
+      data: {},
+      isLoading: false,
+      hasError: true
+    });
   }
 };
 
-export const fetchPeriodicTableDataGroupedByColumn = async () => {
-  const elements = await fetchPeriodicTableData();
+export const useFetchPeriodicTableByColumn = () => {
+  const [apiState, setAPIState] = useState({
+    isLoading: false,
+    hasError: false,
+    data: {}
+  });
+  useEffect(() => {
+    fetchByColumn(apiState, setAPIState);
+  }, []);
 
-  // add data about reactivity to each element
-  if (elements) {
-    const elementsWithReactivity = elements.map(element => {
-      return {
-        ...element,
-        // @ts-ignore - need to enum elements to make sure element symbol key exists in both elements data and reactivity of elements
-        ...elementReactivity[element.symbol],
-        ionicCharge: getIonicCharge(_.last(element.shells) || 0)
-      };
-    });
-
-    const groupedByPeriod = _.groupBy(elementsWithReactivity, "xpos");
-    return groupedByPeriod;
-  }
-
-  return {};
+  const { isLoading, hasError, data } = apiState;
+  return { isLoading, hasError, data };
 };

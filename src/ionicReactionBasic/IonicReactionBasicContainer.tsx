@@ -2,7 +2,7 @@ import React, { useEffect, useState, useReducer } from "react";
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import ElementGroup from "../components/ElementGroup";
-import { fetchPeriodicTableDataGroupedByColumn } from "../requests/periodicTable";
+import { useFetchPeriodicTableByColumn } from "../requests/periodicTable";
 import SelectedElementsPreview from "../components/SelectedElementsPreview";
 import AtomReactor from "../components/AtomReactor";
 import CompletedReactions from "../components/CompletedReactions";
@@ -11,24 +11,17 @@ import { reducer, initialState } from "./IonicReactionBasicReducer";
 export const ReactionDispatch = React.createContext(null);
 
 const IonicReactionBasicContainer = () => {
-  const [elementsByColumn, setElements] = useState({});
   // @ts-ignore
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  const { isLoading, hasError, data } = useFetchPeriodicTableByColumn();
+
   const {
     selectedElement,
     addedElements,
     isReacting,
     completedReactions
   } = state;
-
-  const fetchDataAndUpdateElementsState = async () => {
-    const periodicTableDataByColumn = await fetchPeriodicTableDataGroupedByColumn();
-    await setElements(periodicTableDataByColumn);
-  };
-
-  useEffect(() => {
-    fetchDataAndUpdateElementsState();
-  }, []);
 
   const hasSelectedMaxElements = addedElements.length === 2;
   return (
@@ -45,7 +38,7 @@ const IonicReactionBasicContainer = () => {
           {[1, 2].map(columnNumber => (
             <ElementGroup
               // @ts-ignore
-              elements={elementsByColumn[columnNumber] || []}
+              elements={data[columnNumber] || []}
               selectedElement={selectedElement}
               hasSelectedMaxElements={hasSelectedMaxElements}
               id={`PeriodicTableColumn${columnNumber}`}
@@ -66,7 +59,7 @@ const IonicReactionBasicContainer = () => {
           {[16, 17, 18].map(columnNumber => (
             <ElementGroup
               // @ts-ignore
-              elements={elementsByColumn[columnNumber] || []}
+              elements={data[columnNumber] || []}
               selectedElement={selectedElement}
               hasSelectedMaxElements={hasSelectedMaxElements}
               id={`PeriodicTableColumn${columnNumber}`}

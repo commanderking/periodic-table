@@ -9,6 +9,10 @@ const getValenceElectrons = (
   return _.last(element.shells) || null;
 };
 
+const isNobleGas = (element: ElementWithReactionBehavior) => {
+  return getValenceElectrons(element) === 8;
+};
+
 const hasOneDonorAndOneReceiver = (
   elementOne: ElementWithReactionBehavior,
   elementTwo: ElementWithReactionBehavior
@@ -16,12 +20,17 @@ const hasOneDonorAndOneReceiver = (
   const firstElementElectrons = getValenceElectrons(elementOne);
   const secondElementElectrons = getValenceElectrons(elementTwo);
 
+  // null check
   if (!firstElementElectrons || !secondElementElectrons) {
     return false;
   }
+
+  if (isNobleGas(elementOne) || isNobleGas(elementTwo)) {
+    return false;
+  }
   if (
-    (firstElementElectrons <= 3 && secondElementElectrons >= 6) ||
-    (secondElementElectrons <= 3 && secondElementElectrons >= 6)
+    (firstElementElectrons <= 3 && secondElementElectrons >= 5) ||
+    (secondElementElectrons <= 3 && firstElementElectrons >= 5)
   ) {
     return true;
   }
@@ -32,7 +41,7 @@ export const canIonicReactionHappen = (
   elementOne: ElementWithReactionBehavior,
   elementTwo: ElementWithReactionBehavior
 ): boolean => {
-  if (!(elementOne.canFormIonicCompound && elementTwo.canFormIonicCompound)) {
+  if (!elementOne.canFormIonicCompound && !elementTwo.canFormIonicCompound) {
     return false;
   }
 
@@ -54,7 +63,6 @@ export const canMolecularReactionHappen = (
   ) {
     return false;
   }
-
   return true;
 };
 

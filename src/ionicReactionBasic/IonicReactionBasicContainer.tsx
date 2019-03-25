@@ -24,9 +24,13 @@ const IonicReactionBasicContainer = () => {
   } = state;
 
   const hasSelectedMaxElements = addedElements.length === 2;
+
+  if (isLoading) return <div>Loading ...</div>;
+
   return (
     <ReactionDispatch.Provider value={dispatch}>
       <div>
+        {hasError && <div>Sorry, we could not get element data!</div>}
         <div
           id="ElementGroupExample"
           css={css`

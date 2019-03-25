@@ -10,7 +10,7 @@ const getValenceElectrons = (
 };
 
 const isNobleGas = (element: ElementWithReactionBehavior) => {
-  return getValenceElectrons(element) === 8;
+  return getValenceElectrons(element) === 8 || element.symbol === "He";
 };
 
 const hasOneDonorAndOneReceiver = (

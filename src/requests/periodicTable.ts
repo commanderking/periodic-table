@@ -1,6 +1,7 @@
 import _ from "lodash";
 import elements from "../sampleData/periodicTable";
 import elementReactivity from "../sampleData/elementReactivity";
+import atomicRadiiHash from "../sampleData/atomicRadii";
 import { getIonicCharge } from "../utils/ionicCompoundReactionUtils";
 import { useEffect, useState } from "react";
 
@@ -15,6 +16,12 @@ const appendReactivityAndIonicCharge = (element: any) => {
     ionicCharge: getIonicCharge(_.last(element.shells) || 0)
   };
 };
+
+// TODO: update atomicRadiiHash to reflect data
+const appendAtomicRadii = (element: any, atomicRadiiHash: any) => ({
+  ...element,
+  radius: atomicRadiiHash[element.symbol].atomicRadius || null
+});
 
 const fetchByColumn = async (apiState: any, setAPIState: any) => {
   setAPIState({
@@ -31,10 +38,15 @@ const fetchByColumn = async (apiState: any, setAPIState: any) => {
 
     // For offline Testing
     const elementsWithReactivity = elements.map(appendReactivityAndIonicCharge);
+    const elementWithReactivityAndRadii = elementsWithReactivity.map(
+      element => {
+        return appendAtomicRadii(element, atomicRadiiHash);
+      }
+    );
 
     setAPIState({
       ...apiState,
-      data: _.groupBy(elementsWithReactivity, "xpos"),
+      data: _.groupBy(elementWithReactivityAndRadii, "xpos"),
       isLoading: false
     });
 

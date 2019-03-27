@@ -29,4 +29,5 @@ interface ElementAtomicRadii {
 export interface ElementWithReactionBehavior extends Element {
   canFormMolecularCompound: boolean;
   canFormIonicCompound: boolean;
+  radius: number | null;
 }

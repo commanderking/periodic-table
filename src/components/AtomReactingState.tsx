@@ -15,6 +15,9 @@ import {
 import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
 import { addCompletedReaction } from "../ionicReactionBasic/IonicReactionBasicActions";
 
+const radiusScaleDownFactor = 2.5;
+const paddingFromCanvasCenterForAtomsToStop = 100;
+
 const reactionStates = {
   REACTING: "REACTING",
   NO_REACTION: "NO_REACTION",
@@ -32,14 +35,13 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
   const canvasHeight = 300;
 
   const canvas = useRef(null);
-  const atomSize = 30;
 
   const [firstElement, secondElement] = addedElements;
 
   const firstAtom = {
     initXPos: 25,
     yPos: canvasHeight / 2,
-    radius: atomSize,
+    radius: firstElement.radius / radiusScaleDownFactor,
     symbol: firstElement.symbol,
     valenceElectrons: _.last(firstElement.shells),
     ionicCharge: firstElement.ionicCharge,
@@ -49,7 +51,7 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
   const secondAtom = {
     initXPos: canvasWidth - 25,
     yPos: canvasHeight / 2,
-    radius: atomSize,
+    radius: secondElement.radius / radiusScaleDownFactor,
     symbol: secondElement.symbol,
     valenceElectrons: _.last(secondElement.shells),
     ionicCharge: secondElement.ionicCharge,
@@ -76,7 +78,10 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
 
     const drawReaction = window.setInterval(() => {
       // Keep drawing if atoms are not close enough
-      if (distanceElementMoved < canvasWidth / 2 - atomSize * 3) {
+      if (
+        distanceElementMoved <
+        canvasWidth / 2 - paddingFromCanvasCenterForAtomsToStop
+      ) {
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         allAtoms.map(atom => {
           drawAtom(context, atom, distanceElementMoved);

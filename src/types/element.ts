@@ -22,6 +22,10 @@ export interface Element {
   shells: Array<number>;
 }
 
+interface ElementAtomicRadii {
+  radius: number;
+}
+
 export interface ElementWithReactionBehavior extends Element {
   canFormMolecularCompound: boolean;
   canFormIonicCompound: boolean;

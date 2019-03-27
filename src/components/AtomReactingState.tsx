@@ -34,13 +34,15 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
   const canvas = useRef(null);
   const atomSize = 30;
 
+  const [firstElement, secondElement] = addedElements;
+
   const firstAtom = {
     initXPos: 25,
     yPos: canvasHeight / 2,
     radius: atomSize,
-    symbol: addedElements[0].symbol,
-    valenceElectrons: _.last(addedElements[0].shells),
-    ionicCharge: addedElements[0].ionicCharge,
+    symbol: firstElement.symbol,
+    valenceElectrons: _.last(firstElement.shells),
+    ionicCharge: firstElement.ionicCharge,
     moveDirection: moveDirection.RIGHT
   };
 
@@ -48,9 +50,9 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
     initXPos: canvasWidth - 25,
     yPos: canvasHeight / 2,
     radius: atomSize,
-    symbol: addedElements[1].symbol,
-    valenceElectrons: _.last(addedElements[1].shells),
-    ionicCharge: addedElements[1].ionicCharge,
+    symbol: secondElement.symbol,
+    valenceElectrons: _.last(secondElement.shells),
+    ionicCharge: secondElement.ionicCharge,
     moveDirection: moveDirection.LEFT
   };
 
@@ -73,6 +75,7 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
     var distanceElementMoved = 1;
 
     const drawReaction = window.setInterval(() => {
+      // Keep drawing if atoms are not close enough
       if (distanceElementMoved < canvasWidth / 2 - atomSize * 3) {
         context.clearRect(0, 0, canvasWidth, canvasHeight);
         allAtoms.map(atom => {

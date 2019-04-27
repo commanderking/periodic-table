@@ -15,7 +15,6 @@ const reactionStates = {
 
 const AtomReactor = ({ addedElements, dispatch }: Props) => {
   const [reactionState, setReactionState] = useState(reactionStates.REACTING);
-  console.log("react", React);
   return (
     <div>
       {reactionState === reactionStates.REACTING && (

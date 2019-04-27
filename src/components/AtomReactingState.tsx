@@ -14,8 +14,7 @@ import {
 } from "../utils/ionicCompoundReactionUtils";
 import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
 import { addCompletedReaction } from "../ionicReactionBasic/IonicReactionBasicActions";
-
-const radiusScaleDownFactor = 2.5;
+import { RADIUS_SCALE_DOWN_FACTOR } from "../constants/Atoms";
 const paddingFromCanvasCenterForAtomsToStop = 100;
 
 const reactionStates = {
@@ -41,7 +40,7 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
   const firstAtom = {
     initXPos: 25,
     yPos: canvasHeight / 2,
-    radius: firstElement.radius / radiusScaleDownFactor,
+    radius: firstElement.radius / RADIUS_SCALE_DOWN_FACTOR,
     symbol: firstElement.symbol,
     valenceElectrons: _.last(firstElement.shells),
     ionicCharge: firstElement.ionicCharge,
@@ -51,7 +50,7 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
   const secondAtom = {
     initXPos: canvasWidth - 25,
     yPos: canvasHeight / 2,
-    radius: secondElement.radius / radiusScaleDownFactor,
+    radius: secondElement.radius / RADIUS_SCALE_DOWN_FACTOR,
     symbol: secondElement.symbol,
     valenceElectrons: _.last(secondElement.shells),
     ionicCharge: secondElement.ionicCharge,

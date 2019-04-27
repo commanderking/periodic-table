@@ -114,6 +114,29 @@ const drawCharge = (
   context.restore();
 };
 
+export const drawAtomCircle = (context: any, atomData: any) => {
+  const {
+    initXPos,
+    yPos,
+    radius,
+    symbol,
+    moveDirection,
+    valenceElectrons,
+    ionicCharge
+  } = atomData;
+
+  context.strokeStyle = "black";
+  context.beginPath();
+  context.arc(initXPos, yPos, radius, 0, Math.PI * 2);
+  context.stroke();
+  context.restore();
+
+  context.fillStyle = "black";
+  context.font = "15px Arial";
+  context.fillText(symbol, initXPos - 3, yPos + 3);
+  context.restore();
+};
+
 export const drawAtom = (
   context: any,
   atomData: any,

@@ -12,7 +12,7 @@ export const ReactionDispatch = React.createContext(null);
 
 const IonicReactionBasicContainer = () => {
   // @ts-ignore
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [reactionState, dispatch] = useReducer(reducer, initialState);
 
   const { isLoading, hasError, data } = useFetchPeriodicTableByColumn();
 
@@ -21,7 +21,7 @@ const IonicReactionBasicContainer = () => {
     addedElements,
     isReacting,
     completedReactions
-  } = state;
+  } = reactionState;
 
   const hasSelectedMaxElements = addedElements.length === 2;
 

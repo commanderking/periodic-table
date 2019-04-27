@@ -38,10 +38,8 @@ const fetchByColumn = async (apiState: any, setAPIState: any) => {
 
     // For offline Testing
     const elementsWithReactivity = elements.map(appendReactivityAndIonicCharge);
-    const elementWithReactivityAndRadii = elementsWithReactivity.map(
-      element => {
-        return appendAtomicRadii(element, atomicRadiiHash);
-      }
+    const elementWithReactivityAndRadii = elementsWithReactivity.map(element =>
+      appendAtomicRadii(element, atomicRadiiHash)
     );
 
     setAPIState({

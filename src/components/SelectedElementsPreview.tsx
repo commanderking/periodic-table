@@ -1,15 +1,14 @@
 import React from "react";
-import {
-  setIsReacting,
-  removeElement
-} from "../ionicReactionBasic/IonicReactionBasicActions";
+import { setIsReacting } from "../ionicReactionBasic/IonicReactionBasicActions";
+import SelectedElementPreview from "./SelectedElementPreview";
+/** @jsx jsx */
+import { jsx, css } from "@emotion/core";
 
 const SelectedElementsPreview = ({
   addedElements,
   hasSelectedMaxElements,
   dispatch
 }: any) => {
-  console.log("react", React);
   return (
     <div id="ElementsPreview">
       {addedElements.length === 0 ? (
@@ -18,20 +17,20 @@ const SelectedElementsPreview = ({
         <h1>Selected Elements</h1>
       )}
       {addedElements.map((element: any, index: number) => (
-        <div key={element.name + index}>
-          <p>{element.name}</p>
-          <p>{element.symbol}</p>
-          <button
-            onClick={() => {
-              dispatch(removeElement(element));
-            }}
-          >
-            X
-          </button>
-        </div>
+        <SelectedElementPreview
+          key={`${element}-${index}`}
+          element={element}
+          dispatch={dispatch}
+        />
       ))}
       {hasSelectedMaxElements && (
         <button
+          css={css`
+             {
+              display: block;
+              margin: auto;
+            }
+          `}
           onClick={() => {
             dispatch(setIsReacting(true));
           }}

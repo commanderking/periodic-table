@@ -7,7 +7,6 @@ type Props = {
 };
 
 const CompletedReactions = ({ completedReactions }: Props) => {
-  console.log("React", React);
   return (
     <div>
       <h4>Completed Reactions</h4>

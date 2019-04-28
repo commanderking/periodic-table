@@ -57,10 +57,16 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
     moveDirection: moveDirection.LEFT
   };
 
+  const willIonicReactionHappen = canIonicReactionHappen(
+    firstElement,
+    secondElement
+  );
+
   const allAtoms = getAllAtomsInReaction(
     // @ts-ignore - thinks valenceElectrons can be null. Perhaps beacuse _.last in combination with getting 0th element in array
     firstAtom,
-    secondAtom
+    secondAtom,
+    willIonicReactionHappen
   );
 
   const dispatch = useContext(ReactionDispatch);
@@ -88,15 +94,10 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
         distanceElementMoved += 0.5;
       } else {
         window.clearInterval(drawReaction);
-        const [elementOne, elementTwo] = addedElements;
-        const willIonicReactionHappen = canIonicReactionHappen(
-          elementOne,
-          elementTwo
-        );
 
         const willMolecularReactionHappen = canMolecularReactionHappen(
-          elementOne,
-          elementTwo
+          firstElement,
+          secondElement
         );
 
         // If ionic and molecular reaction won't happen, definitely assert no reaction

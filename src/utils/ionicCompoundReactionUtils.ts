@@ -78,13 +78,18 @@ const getYOffsetBetweenAtoms = (radius: number): number => {
 // To balance charges, more than one of each element might need to be present
 export const getAllAtomsInReaction = (
   firstAtom: ElementToDraw,
-  secondAtom: ElementToDraw
+  secondAtom: ElementToDraw,
+  willIonicReactionHappen: boolean
 ) => {
   const firstAtomIonicCharge = firstAtom.ionicCharge;
   const secondAtomIonicCharge = secondAtom.ionicCharge;
 
   // Case of having a noble gas - nothing will react and we'll just show one of each atom attempting to react
-  if (firstAtomIonicCharge === 0 || secondAtomIonicCharge === 0) {
+  if (
+    firstAtomIonicCharge === 0 ||
+    secondAtomIonicCharge === 0 ||
+    !willIonicReactionHappen
+  ) {
     return [
       { ...firstAtom, ionicCharge: firstAtomIonicCharge },
       { ...secondAtom, ionicCharge: secondAtomIonicCharge }

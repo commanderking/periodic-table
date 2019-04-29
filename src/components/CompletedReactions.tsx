@@ -15,7 +15,7 @@ const CompletedReactions = ({ completedReactions }: Props) => {
         const { elements, reactionResult } = reaction;
         return (
           <CompletedReactionItem
-            key={`$Reaction-{index}`}
+            key={`$Reaction-${index}`}
             elements={elements}
             reactionResult={reactionResult}
           />

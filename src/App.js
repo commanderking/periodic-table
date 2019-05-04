@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import IonicReactionBasicContainer from "./ionicReactionBasic/IonicReactionBasicContainer";
 import "./App.css";
-
+import { ReactionProvider } from "./stateManagement/ReactionContext";
 class App extends Component {
   render() {
     // Some awful emotion/typescript/react-app issue -
@@ -10,7 +10,9 @@ class App extends Component {
 
     return (
       <div className="App">
-        <IonicReactionBasicContainer />
+        <ReactionProvider>
+          <IonicReactionBasicContainer />
+        </ReactionProvider>
       </div>
     );
   }

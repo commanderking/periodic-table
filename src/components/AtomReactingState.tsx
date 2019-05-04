@@ -1,15 +1,15 @@
-import React, { useRef, useContext, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import _ from "lodash";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { drawAtom } from "../utils/canvasAtomUtils";
+import { useReactionState } from "../stateManagement/ReactionContext";
 
 import {
   canIonicReactionHappen,
   canMolecularReactionHappen,
   getAllAtomsInReaction
 } from "../utils/ionicCompoundReactionUtils";
-import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
 import { addCompletedReaction } from "../ionicReactionBasic/IonicReactionBasicActions";
 import { RADIUS_SCALE_DOWN_FACTOR } from "../constants/Atoms";
 const paddingFromCanvasCenterForAtomsToStop = 100;
@@ -76,7 +76,7 @@ const AtomReactingState = ({
     willIonicReactionHappen
   );
 
-  const dispatch = useContext(ReactionDispatch);
+  const { dispatch } = useReactionState();
 
   useEffect(() => {
     // @ts-ignore

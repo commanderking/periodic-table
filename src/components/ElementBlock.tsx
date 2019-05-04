@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { addElement } from "../ionicReactionBasic/IonicReactionBasicActions";
 import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
 import { Element } from "../types/element";
+import { useReactionState } from "../stateManagement/ReactionContext";
 
 const ElementBlock = ({
   element,
@@ -14,7 +15,7 @@ const ElementBlock = ({
   clickHandler: any;
   isSelected: boolean;
 }) => {
-  const dispatch = useContext(ReactionDispatch);
+  const { dispatch } = useReactionState();
   const isSelectedBackgroundColor = isSelected ? "red" : "white";
 
   return (

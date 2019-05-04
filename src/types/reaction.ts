@@ -7,4 +7,5 @@ enum ReactionResult {
 export type CompletedReaction = {
   elements: Array<string>;
   reactionResult: string; //ReactionResult;
+  reactionIndex: number;
 };

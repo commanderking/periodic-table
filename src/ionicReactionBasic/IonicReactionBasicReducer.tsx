@@ -4,23 +4,28 @@ import {
   ADD_ELEMENT,
   REMOVE_ELEMENT,
   SET_IS_REACTING,
-  ADD_COMPLETED_REACTION
+  ADD_COMPLETED_REACTION,
+  REMOVE_COMPLETED_REACTION
 } from "./IonicReactionBasicActions";
 
 import { CompletedReaction } from "../types/reaction";
+import CompletedReactions from "../components/CompletedReactions";
 
 interface State {
   selectedElement: string;
   addedElements: Array<any>;
   isReacting: boolean;
   completedReactions: CompletedReaction[];
+  // How many reactions have happened since the user started this session
+  reactionIndex: 0;
 }
 
 export const initialState = {
   selectedElement: "",
   addedElements: [],
   isReacting: false,
-  completedReactions: []
+  completedReactions: [],
+  reactionIndex: 0
 };
 
 export const reducer = (
@@ -33,6 +38,7 @@ export const reducer = (
       removedElement?: any;
       isReacting?: boolean;
       completedReaction?: CompletedReaction;
+      reactionIndex?: number;
     };
   }
 ) => {
@@ -80,8 +86,18 @@ export const reducer = (
         ...state,
         completedReactions: [
           ...state.completedReactions,
-          action.payload.completedReaction
+          {
+            ...action.payload.completedReaction,
+            reactionIndex: state.reactionIndex += 1
+          }
         ]
+      };
+    case REMOVE_COMPLETED_REACTION:
+      return {
+        ...state,
+        completedReactions: state.completedReactions.filter(
+          reaction => reaction.reactionIndex !== action.payload.reactionIndex
+        )
       };
     default:
       throw new Error();

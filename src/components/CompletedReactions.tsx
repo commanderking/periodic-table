@@ -11,13 +11,14 @@ const CompletedReactions = ({ completedReactions }: Props) => {
     <div>
       <h4>Completed Reactions</h4>
       {completedReactions.length === 0 && <div>No Observed Reactions Yet</div>}
-      {completedReactions.map((reaction, index) => {
-        const { elements, reactionResult } = reaction;
+      {completedReactions.map(reaction => {
+        const { elements, reactionResult, reactionIndex } = reaction;
         return (
           <CompletedReactionItem
-            key={`$Reaction-${index}`}
+            key={`$Reaction-${reactionIndex}`}
             elements={elements}
             reactionResult={reactionResult}
+            reactionIndex={reactionIndex}
           />
         );
       })}

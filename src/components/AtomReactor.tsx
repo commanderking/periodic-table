@@ -4,6 +4,7 @@ import { startNewReaction } from "../ionicReactionBasic/IonicReactionBasicAction
 type Props = {
   addedElements: any;
   dispatch: any;
+  replayMode?: boolean;
 };
 import AtomReactingState from "./AtomReactingState";
 
@@ -13,7 +14,7 @@ const reactionStates = {
   REACTION_SUCCESS: "REACTION_SUCCESS"
 };
 
-const AtomReactor = ({ addedElements, dispatch }: Props) => {
+const AtomReactor = ({ addedElements, dispatch, replayMode }: Props) => {
   const [reactionState, setReactionState] = useState(reactionStates.REACTING);
   return (
     <div>
@@ -21,9 +22,10 @@ const AtomReactor = ({ addedElements, dispatch }: Props) => {
         <AtomReactingState
           addedElements={addedElements}
           setReactionState={setReactionState}
+          replayMode={replayMode}
         />
       )}
-      {reactionState === reactionStates.NO_REACTION && (
+      {!replayMode && reactionState === reactionStates.NO_REACTION && (
         <div>
           <h1>No Reaction</h1>
           <button
@@ -35,7 +37,7 @@ const AtomReactor = ({ addedElements, dispatch }: Props) => {
           </button>
         </div>
       )}
-      {reactionState === reactionStates.REACTION_SUCCESS && (
+      {!replayMode && reactionState === reactionStates.REACTION_SUCCESS && (
         <div>
           <h1>Successful Reaction</h1>
           <button

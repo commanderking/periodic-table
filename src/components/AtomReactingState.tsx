@@ -3,10 +3,7 @@ import _ from "lodash";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { drawAtom } from "../utils/canvasAtomUtils";
-type Props = {
-  addedElements: any;
-  setReactionState: Function;
-};
+
 import {
   canIonicReactionHappen,
   canMolecularReactionHappen,
@@ -29,7 +26,17 @@ const moveDirection = {
   RIGHT: "RIGHT"
 };
 
-const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
+type Props = {
+  addedElements: any;
+  setReactionState: Function;
+  replayMode?: boolean;
+};
+
+const AtomReactingState = ({
+  addedElements,
+  setReactionState,
+  replayMode
+}: Props) => {
   const canvasWidth = 500;
   const canvasHeight = 300;
 
@@ -100,6 +107,13 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
           secondElement
         );
 
+        // ReplayMode is if we're just playing the reaction back. In that case, we shouldn't
+        // need to change anything about the completed reactions or reaction state
+
+        if (replayMode) {
+          return;
+        }
+
         // If ionic and molecular reaction won't happen, definitely assert no reaction
         if (!willIonicReactionHappen && !willMolecularReactionHappen) {
           setTimeout(() => {
@@ -158,7 +172,7 @@ const AtomReactingState = ({ addedElements, setReactionState }: Props) => {
                 reactionResult: reactionStates.REACTION_SUCCESS
               })
             );
-          }, 5000);
+          }, 2000);
           return;
         }
       }

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useReducer } from "react";
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import ElementGroup from "../components/ElementGroup";
-import { useFetchPeriodicTableByColumn } from "../requests/periodicTable";
+import { useFetchElementsByMaxAtomicNumber } from "../requests/periodicTable";
 import SelectedElementsPreview from "../components/SelectedElementsPreview";
 import AtomReactor from "../components/AtomReactor";
 import CompletedReactions from "../components/CompletedReactions";
@@ -14,7 +14,7 @@ const IonicReactionBasicContainer = () => {
   // @ts-ignore
   const [reactionState, dispatch] = useReducer(reducer, initialState);
 
-  const { isLoading, hasError, data } = useFetchPeriodicTableByColumn();
+  const { isLoading, hasError, data } = useFetchElementsByMaxAtomicNumber(18);
 
   const {
     selectedElement,

@@ -22,10 +22,8 @@ const IonicReactionBasicContainer = () => {
     dispatch
   } = useReactionState();
 
-  console.log("dispatch", dispatch);
-
   const { isLoading, hasError, data } = useFetchElementsByMaxAtomicNumber(18);
-
+  console.log("re-render");
   const hasSelectedMaxElements = addedElements.length === 2;
 
   if (isLoading) return <div>Loading ...</div>;

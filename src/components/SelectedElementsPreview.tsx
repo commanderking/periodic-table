@@ -9,6 +9,7 @@ const SelectedElementsPreview = ({
   hasSelectedMaxElements,
   dispatch
 }: any) => {
+  console.log("selected elements re-render");
   return (
     <div id="ElementsPreview">
       {addedElements.length === 0 ? (

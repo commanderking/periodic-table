@@ -5,7 +5,9 @@ import {
   State
 } from "../ionicReactionBasic/IonicReactionBasicReducer";
 
-const ReactionContext = React.createContext<State | undefined>(undefined);
+const ReactionContext = React.createContext<
+  { reactionState: State; dispatch: any } | undefined
+>(undefined);
 
 // TODO: No props as of now, but could be in the future
 const ReactionProvider = (props: {}) => {
@@ -31,10 +33,8 @@ const useReactionState = () => {
     );
   }
 
-  // @ts-ignore
   const { reactionState, dispatch } = context;
 
-  console.log("dispatch", dispatch);
   return { ...reactionState, dispatch };
 };
 

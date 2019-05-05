@@ -1,11 +1,11 @@
-import React, { useContext } from "react";
+import React, { useCallback } from "react";
 import ElementBlock from "./ElementBlock";
-import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
 
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import { setSelectedElement } from "../ionicReactionBasic/IonicReactionBasicActions";
 import { Element } from "../types/element";
+import { useReactionState } from "../stateManagement/ReactionContext";
 
 const ElementGroup = ({
   elements,
@@ -18,7 +18,13 @@ const ElementGroup = ({
   selectedElement: string;
   hasSelectedMaxElements: boolean;
 }) => {
-  const dispatch = useContext(ReactionDispatch);
+  const { dispatch } = useReactionState();
+
+  const clickHandler = useCallback((element: string) => {
+    if (!hasSelectedMaxElements) {
+      dispatch(setSelectedElement(element));
+    }
+  }, []);
   return (
     <div
       id={id}
@@ -35,12 +41,8 @@ const ElementGroup = ({
           <ElementBlock
             key={element.symbol}
             element={element}
-            clickHandler={(element: string) => {
-              if (!hasSelectedMaxElements) {
-                // @ts-ignore
-                dispatch(setSelectedElement(element));
-              }
-            }}
+            clickHandler={clickHandler}
+            dispatch={dispatch}
             isSelected={isSelected && !hasSelectedMaxElements}
           />
         );

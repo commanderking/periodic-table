@@ -9,15 +9,15 @@ import {
 } from "./IonicReactionBasicActions";
 
 import { CompletedReaction } from "../types/reaction";
-import CompletedReactions from "../components/CompletedReactions";
+import { ElementWithReactionBehavior } from "../types/element";
 
-interface State {
+export interface State {
   selectedElement: string;
-  addedElements: Array<any>;
+  addedElements: Array<ElementWithReactionBehavior>;
   isReacting: boolean;
   completedReactions: CompletedReaction[];
   // How many reactions have happened since the user started this session
-  reactionIndex: 0;
+  reactionIndex: number;
 }
 
 export const initialState = {
@@ -32,16 +32,9 @@ export const reducer = (
   state: State,
   action: {
     type: string;
-    payload: {
-      selectedElement?: string;
-      addedElement?: Array<any>;
-      removedElement?: any;
-      isReacting?: boolean;
-      completedReaction?: CompletedReaction;
-      reactionIndex?: number;
-    };
+    payload: any;
   }
-) => {
+): State => {
   switch (action.type) {
     case START_NEW_REACTION:
       return {

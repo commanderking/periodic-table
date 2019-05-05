@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
-import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
+import { useReactionState } from "../stateManagement/ReactionContext";
 import { removeCompletedReaction } from "../ionicReactionBasic/IonicReactionBasicActions";
+
 type Props = {
   elements: string[];
   reactionResult: string;
@@ -21,7 +22,7 @@ const CompletedReactionItem = ({
   reactionIndex
 }: Props) => {
   const [firstElement, secondElement] = elements;
-  const dispatch = useContext(ReactionDispatch);
+  const { dispatch } = useReactionState();
 
   return (
     <div

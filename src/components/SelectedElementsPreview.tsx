@@ -42,4 +42,4 @@ const SelectedElementsPreview = ({
   );
 };
 
-export default SelectedElementsPreview;
+export default React.memo(SelectedElementsPreview);

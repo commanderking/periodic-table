@@ -1,20 +1,41 @@
-import React, { useContext } from "react";
+import React from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { addElement } from "../ionicReactionBasic/IonicReactionBasicActions";
-import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
 import { Element } from "../types/element";
+
+const ElementContent = ({ element }: { element: Element }) => {
+  return (
+    <React.Fragment>
+      <p
+        css={css`
+          margin: 0;
+        `}
+      >
+        {element.name}
+      </p>
+      <p
+        css={css`
+          margin: 0;
+        `}
+      >
+        {element.symbol}
+      </p>
+    </React.Fragment>
+  );
+};
 
 const ElementBlock = ({
   element,
   clickHandler,
-  isSelected
+  isSelected,
+  dispatch
 }: {
   element: Element;
   clickHandler: any;
   isSelected: boolean;
+  dispatch: any;
 }) => {
-  const dispatch = useContext(ReactionDispatch);
   const isSelectedBackgroundColor = isSelected ? "red" : "white";
 
   return (
@@ -30,20 +51,7 @@ const ElementBlock = ({
         height: 70px;
       `}
     >
-      <p
-        css={css`
-          margin: 0;
-        `}
-      >
-        {element.name}
-      </p>
-      <p
-        css={css`
-          margin: 0;
-        `}
-      >
-        {element.symbol}
-      </p>
+      <ElementContent element={element} />
       {isSelected && (
         <button
           onClick={() => {
@@ -58,4 +66,4 @@ const ElementBlock = ({
   );
 };
 
-export default ElementBlock;
+export default React.memo(ElementBlock);

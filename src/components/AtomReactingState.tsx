@@ -1,15 +1,15 @@
-import React, { useRef, useContext, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
 import _ from "lodash";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import { drawAtom } from "../utils/canvasAtomUtils";
+import { useReactionState } from "../stateManagement/ReactionContext";
 
 import {
   canIonicReactionHappen,
   canMolecularReactionHappen,
   getAllAtomsInReaction
 } from "../utils/ionicCompoundReactionUtils";
-import { ReactionDispatch } from "../ionicReactionBasic/IonicReactionBasicContainer";
 import { addCompletedReaction } from "../ionicReactionBasic/IonicReactionBasicActions";
 import { RADIUS_SCALE_DOWN_FACTOR } from "../constants/Atoms";
 const paddingFromCanvasCenterForAtomsToStop = 100;
@@ -76,7 +76,7 @@ const AtomReactingState = ({
     willIonicReactionHappen
   );
 
-  const dispatch = useContext(ReactionDispatch);
+  const { dispatch } = useReactionState();
 
   useEffect(() => {
     // @ts-ignore
@@ -118,7 +118,6 @@ const AtomReactingState = ({
         if (!willIonicReactionHappen && !willMolecularReactionHappen) {
           setTimeout(() => {
             setReactionState(reactionStates.NO_REACTION);
-            // @ts-ignore - how can dispatch be null?
             dispatch(
               addCompletedReaction({
                 elements: [firstAtom.symbol, secondAtom.symbol],
@@ -135,7 +134,6 @@ const AtomReactingState = ({
             // Move electrons around
 
             setReactionState(reactionStates.NO_REACTION);
-            // @ts-ignore - how can dispatch be null?
             dispatch(
               addCompletedReaction({
                 elements: [firstAtom.symbol, secondAtom.symbol],
@@ -165,7 +163,6 @@ const AtomReactingState = ({
 
           setTimeout(() => {
             setReactionState(reactionStates.REACTION_SUCCESS);
-            // @ts-ignore - how can dispatch be null?
             dispatch(
               addCompletedReaction({
                 elements: [firstAtom.symbol, secondAtom.symbol],

@@ -20,7 +20,6 @@ const ReactionProvider = (props: {}) => {
     };
   }, [reactionState]);
 
-  //@ts-ignore
   return <ReactionContext.Provider value={value} {...props} />;
 };
 

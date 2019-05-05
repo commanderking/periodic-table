@@ -118,7 +118,6 @@ const AtomReactingState = ({
         if (!willIonicReactionHappen && !willMolecularReactionHappen) {
           setTimeout(() => {
             setReactionState(reactionStates.NO_REACTION);
-            // @ts-ignore - how can dispatch be null?
             dispatch(
               addCompletedReaction({
                 elements: [firstAtom.symbol, secondAtom.symbol],
@@ -135,7 +134,6 @@ const AtomReactingState = ({
             // Move electrons around
 
             setReactionState(reactionStates.NO_REACTION);
-            // @ts-ignore - how can dispatch be null?
             dispatch(
               addCompletedReaction({
                 elements: [firstAtom.symbol, secondAtom.symbol],
@@ -165,7 +163,6 @@ const AtomReactingState = ({
 
           setTimeout(() => {
             setReactionState(reactionStates.REACTION_SUCCESS);
-            // @ts-ignore - how can dispatch be null?
             dispatch(
               addCompletedReaction({
                 elements: [firstAtom.symbol, secondAtom.symbol],

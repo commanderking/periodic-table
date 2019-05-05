@@ -23,14 +23,16 @@ const IonicReactionBasicContainer = () => {
   } = useReactionState();
 
   const { isLoading, hasError, data } = useFetchElementsByMaxAtomicNumber(18);
-  console.log("re-render");
   const hasSelectedMaxElements = addedElements.length === 2;
 
   if (isLoading) return <div>Loading ...</div>;
 
   return (
-    //@ts-ignore
-    <div>
+    <div
+      css={css`
+        padding: 10px;
+      `}
+    >
       {hasError && <div>Sorry, we could not get element data!</div>}
       <div
         id="ElementGroupExample"

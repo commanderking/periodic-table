@@ -26,4 +26,4 @@ const CompletedReactions = ({ completedReactions }: Props) => {
   );
 };
 
-export default CompletedReactions;
+export default React.memo(CompletedReactions);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useReducer } from "react";
+import React from "react";
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import ElementGroup from "../components/ElementGroup";
@@ -6,11 +6,7 @@ import { useFetchElementsByMaxAtomicNumber } from "../requests/periodicTable";
 import SelectedElementsPreview from "../components/SelectedElementsPreview";
 import AtomReactor from "../components/AtomReactor";
 import CompletedReactions from "../components/CompletedReactions";
-import { reducer, initialState } from "./IonicReactionBasicReducer";
-import {
-  ReactionProvider,
-  useReactionState
-} from "../stateManagement/ReactionContext";
+import { useReactionState } from "../stateManagement/ReactionContext";
 export const ReactionDispatch = React.createContext(null);
 
 const IonicReactionBasicContainer = () => {

@@ -4,7 +4,7 @@ import { css, jsx } from "@emotion/core";
 import { addElement } from "../ionicReactionBasic/IonicReactionBasicActions";
 import { Element } from "../types/element";
 
-const ElementContent = React.memo(({ element }: any) => {
+const ElementContent = ({ element }: { element: Element }) => {
   return (
     <React.Fragment>
       <p
@@ -23,7 +23,7 @@ const ElementContent = React.memo(({ element }: any) => {
       </p>
     </React.Fragment>
   );
-});
+};
 
 const ElementBlock = ({
   element,

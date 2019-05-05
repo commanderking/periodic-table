@@ -9,11 +9,11 @@ import {
 } from "./IonicReactionBasicActions";
 
 import { CompletedReaction } from "../types/reaction";
-import CompletedReactions from "../components/CompletedReactions";
+import { ElementWithReactionBehavior } from "../types/element";
 
 export interface State {
   selectedElement: string;
-  addedElements: Array<any>;
+  addedElements: Array<ElementWithReactionBehavior>;
   isReacting: boolean;
   completedReactions: CompletedReaction[];
   // How many reactions have happened since the user started this session

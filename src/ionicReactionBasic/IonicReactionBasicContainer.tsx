@@ -24,6 +24,7 @@ const IonicReactionBasicContainer = () => {
   if (isLoading) return <div>Loading ...</div>;
 
   return (
+    // @ts-ignore
     <div
       css={css`
         padding: 10px;

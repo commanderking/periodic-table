@@ -81,7 +81,7 @@ const fetchByColumn = async (
 
 export const useFetchElementsByMaxAtomicNumber = (maxAtomicNumber?: number) => {
   const [apiState, setAPIState] = useState({
-    isLoading: false,
+    isLoading: true,
     hasError: false,
     data: {}
   });

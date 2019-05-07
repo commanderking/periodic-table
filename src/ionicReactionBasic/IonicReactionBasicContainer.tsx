@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 /** @jsx jsx */
 import { jsx, css } from "@emotion/core";
 import ElementGroup from "../components/ElementGroup";
@@ -7,6 +7,7 @@ import SelectedElementsPreview from "../components/SelectedElementsPreview";
 import AtomReactor from "../components/AtomReactor";
 import CompletedReactions from "../components/CompletedReactions";
 import { useReactionState } from "../stateManagement/ReactionContext";
+import { setSelectedElement } from "./IonicReactionBasicActions";
 export const ReactionDispatch = React.createContext(null);
 
 const IonicReactionBasicContainer = () => {
@@ -19,12 +20,12 @@ const IonicReactionBasicContainer = () => {
   } = useReactionState();
 
   const { isLoading, hasError, data } = useFetchElementsByMaxAtomicNumber(18);
+
   const hasSelectedMaxElements = addedElements.length === 2;
 
   if (isLoading) return <div>Loading ...</div>;
 
   return (
-    // @ts-ignore
     <div
       css={css`
         padding: 10px;

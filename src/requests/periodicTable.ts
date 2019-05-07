@@ -35,10 +35,10 @@ const fetchByColumn = async (
   setAPIState: any,
   maxAtomicNumber?: number
 ) => {
-  setAPIState({
-    ...apiState,
+  setAPIState((prevState: any) => ({
+    ...prevState,
     isLoading: true
-  });
+  }));
   try {
     const [baseElementData, radiiData] = await Promise.all([
       fetch(periodicTableUrl),
@@ -63,19 +63,19 @@ const fetchByColumn = async (
     //   appendAtomicRadii(element, atomicRadiiHash)
     // );
 
-    setAPIState({
-      ...apiState,
+    setAPIState((prevState: any) => ({
+      ...prevState,
       data: _.groupBy(elementWithReactivityAndRadii, "xpos"),
       isLoading: false
-    });
+    }));
   } catch (err) {
     console.log("error", err);
-    setAPIState({
-      ...apiState,
+    setAPIState((prevState: any) => ({
+      ...prevState,
       data: {},
       isLoading: false,
       hasError: true
-    });
+    }));
   }
 };
 

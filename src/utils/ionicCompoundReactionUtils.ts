@@ -1,7 +1,7 @@
 // Determine if elements can actually react
 import _ from "lodash";
 import { ElementWithReactionBehavior, Element } from "../types/element";
-import { ElementToDraw } from "../ionicReactionBasic/IonicReactionBasicTypes";
+import { ElementToDraw } from "../ionicReactionBasic/ionicReactionBasicTypes";
 
 const getValenceElectrons = (
   element: Element | ElementWithReactionBehavior

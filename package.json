@@ -2,6 +2,9 @@
   "name": "periodic-table",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "9.2.1"
+  },
   "dependencies": {
     "@emotion/core": "^10.0.7",
     "@emotion/styled": "^10.0.7",

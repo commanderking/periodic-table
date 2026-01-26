@@ -9,7 +9,7 @@
     "@emotion/core": "^10.0.7",
     "@emotion/styled": "^10.0.7",
     "emotion": "^10.0.7",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.23",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-emotion": "^10.0.0",
